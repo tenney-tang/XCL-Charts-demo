@@ -34,5 +34,34 @@
  <img src="http://img.blog.csdn.net/20140611213636640?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQveGNsMTY4/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="3D bar chart" />
   <br/>
   
+  <img src="http://img.blog.csdn.net/20140611213655281?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQveGNsMTY4/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="3D bar chart" />
+  &nbsp;
+    <img src="http://img.blog.csdn.net/20140611213715609?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQveGNsMTY4/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="3D bar chart" />
+  <br/>
   
-   <br/>
+  <img src="http://img.blog.csdn.net/20140611213735312?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQveGNsMTY4/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="3D bar chart" />
+   &nbsp;
+ <img src="http://img.blog.csdn.net/20140611213841375?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQveGNsMTY4/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="3D bar chart" />
+ <br/>
+ 
+   <img src="http://img.blog.csdn.net/20140611213901843?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQveGNsMTY4/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="3D bar chart" />
+ &nbsp;
+ <img src="http://img.blog.csdn.net/20140611213922187?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQveGNsMTY4/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="3D bar chart" />
+
+ <br/>
+ 
+  <img src="http://img.blog.csdn.net/20140611213949078?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQveGNsMTY4/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="3D bar chart" />
+  &nbsp;
+ <img src="http://img.blog.csdn.net/20140611214040453?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQveGNsMTY4/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="3D bar chart" />
+ <br/>
+ 
+  <img src="http://img.blog.csdn.net/20140611214102109?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQveGNsMTY4/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="3D bar chart" />
+ &nbsp;
+  <img src="http://img.blog.csdn.net/20140611214132625?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQveGNsMTY4/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="3D bar chart" />
+ 
+<br/>
+  
+  <img src="http://img.blog.csdn.net/20140611214155312?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQveGNsMTY4/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="3D bar chart" />
+  &nbsp;
+ <img src="http://img.blog.csdn.net/20140611214208953?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQveGNsMTY4/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="3D bar chart" />
+<br/>
