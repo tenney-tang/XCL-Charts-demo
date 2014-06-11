@@ -1,13 +1,14 @@
 #git@osc
- XCL-Charts 希望能在保证开发效率的同时，给程序员足够多的定制化能力。 <br/>
+ XCL-Charts 作为一个图表库,希望能在保证开发效率的同时，给程序员足够多的定制化能力。 <br/>
  
  License <br/>
       采用Apache v2 License开源协议。<br/>
  
  Mail: xcl_168@aliyun.com <br/>
  Blog: http://blog.csdn.net/xcl168
- 
+ <br/>
 
+ 例图:
  <br/>
  <img src="http://img.blog.csdn.net/20140611213206921?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQveGNsMTY4/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="3D bar chart" />
   &nbsp;
