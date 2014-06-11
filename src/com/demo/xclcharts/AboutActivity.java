@@ -63,7 +63,9 @@ public class AboutActivity extends Activity {
          		"&nbsp;&nbsp;&nbsp;&nbsp;Android开源图表库,基于原生的Canvas来绘制各种图表。<br/>" +
          		"&nbsp;&nbsp;&nbsp;&nbsp;目前支持3D/非3D柱形图、3D/非3D饼图、堆叠图、面积图、折线图、曲线图、环形图、南丁格尔玫瑰图、仪表盘、圆形图等等，并支持图表的混合显示及同数据源不同类型图表切换的功能。<br/>"+
         		 "<br/><big><font color ='red'>License</font></big><br/>" +
-        		 "采用Apache v2 License开源协议。";
+        		 "采用Apache v2 License开源协议。"+
+        		 "<br/><big><font color ='red'>代码托管地址</font></big><br/>" +
+        		 "https://git.oschina.net/xclcharts/XCL-Charts/tree/master";
          CharSequence charSequence=Html.fromHtml(html);
          tv_title.setText(charSequence);
          tv_title.setMovementMethod(LinkMovementMethod.getInstance());
@@ -78,7 +80,7 @@ public class AboutActivity extends Activity {
 			   + " <br/> "
 			   + " <br/>有什么改进或建议可发邮件联系或至博客留言。 "
 			   + " <br/><big><a href='http://blog.csdn.net/xcl168'>Blog:http://blog.csdn.net/xcl168</a></big> "	
-			   + " <br/><big><font color=\"#ff0000\">Mail:xcl_168@aliyun.com </font></big> "
+			   + " <br/><big>Mail:xcl_168@aliyun.com</big> "
                + "</body></html>";     
          CharSequence charSequenceInfo=Html.fromHtml(htmlInfo);
          tv_info.setText(charSequenceInfo);
