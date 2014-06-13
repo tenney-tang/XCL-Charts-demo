@@ -39,6 +39,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.Toast;
 
 /**
  * @ClassName MainActivity
@@ -98,6 +99,11 @@ public class MainActivity extends Activity {
 			}
         };
         mListView.setOnItemClickListener(listener); 
+        
+        int currentapiVersion=android.os.Build.VERSION.SDK_INT;
+        
+        Toast toast=Toast.makeText(getApplicationContext(), "version:"+currentapiVersion, Toast.LENGTH_SHORT); 
+        toast.show(); 
     }
 
     @Override

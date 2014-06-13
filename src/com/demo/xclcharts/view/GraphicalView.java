@@ -23,6 +23,8 @@
 package com.demo.xclcharts.view;
 
 
+import org.xclcharts.common.SysinfoHelper;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -75,11 +77,12 @@ public class GraphicalView extends View {
 	  public void onDraw(Canvas canvas)
 	    {
 		 
-		  try {
-	
-		     Paint bmpPaint = new Paint();		   
-		     canvas.drawBitmap(mCacheBitmap, 0, 0, bmpPaint);		    
-		     mCacheBitmap.recycle();
+		  try {	
+			  if(null != mCacheBitmap)
+			  {
+			     Paint bmpPaint = new Paint();		   
+			     canvas.drawBitmap(mCacheBitmap, 0, 0, bmpPaint);	
+			  }		    	 		
 		  } catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -95,15 +98,15 @@ public class GraphicalView extends View {
 
 		  case MotionEvent.ACTION_DOWN:
 
-		   System.out.println("down");
+		   //System.out.println("down");
 		   break;
 
 		  case MotionEvent.ACTION_MOVE:
-		   System.out.println("move");
+		   //System.out.println("move");
 		   break;
 
 		  case MotionEvent.ACTION_UP:
-		   System.out.println("up");
+		   //System.out.println("up");
 		   break;
 		  }
 
@@ -125,14 +128,20 @@ public class GraphicalView extends View {
 	
 	
 	/**
-	 * 禁用硬件加速
+	 * 禁用硬件加速.
+	 * 原因:android自3.0引入了硬件加速，即使用GPU进行绘图,但它并不能完善的支持所有的绘图，
+	 * 通常表现为内容不可见，异常或渲染错误。所以类了保证图表的正常显示，强制禁用掉.
 	 */
 	private void disableHardwareAccelerated()
 	{
-		// 是否开启了硬件加速,如开启将其禁掉，否则在有些机器上显示不出一些图形,如Rect或Path
-		if(!isHardwareAccelerated())
-		{
-			setLayerType(View.LAYER_TYPE_SOFTWARE,null); 
+		SysinfoHelper sysinfo = new SysinfoHelper();
+		if(sysinfo.supportHardwareAccelerated())
+		{		
+			// 是否开启了硬件加速,如开启将其禁掉，否则在有些机器上显示不出一些图形,如Rect或Path
+			if(!isHardwareAccelerated())
+			{
+				setLayerType(View.LAYER_TYPE_SOFTWARE,null); 
+			}
 		}
 	}
 	
@@ -140,16 +149,35 @@ public class GraphicalView extends View {
 	 * 生成缓存区
 	 */
 	protected void createCacheBitmap(int width,int height)
-	{							
-	  mCacheBitmap = Bitmap.createBitmap(width,height,Config.ARGB_8888);		   					 
+	{			
+		try{
+			 if(null != mCacheBitmap)
+			  {
+				 if(!mCacheBitmap.isRecycled())
+			     {
+			    	 mCacheBitmap.recycle();
+			    	 System.gc();
+			     }
+			  }
+			 mCacheBitmap = Bitmap.createBitmap(width,height,Config.ARGB_8888);	
+		}catch(Exception ex){
+			Log.e("ERROR-GraphicalView",ex.toString());
+		}
+	 	   					 
 	}
 	
+	/**
+	 * 将缓存的图片绘制到画布
+	 */
 	private void setCacheBitmapCanvas()
 	{
-		//生成画布
-	    mCacheCanvas = new Canvas();	    
-	    //将图绘制到内存中的mCacheBitmap上
-	    mCacheCanvas.setBitmap(mCacheBitmap);
+		if(null != mCacheBitmap)
+		{
+			//生成画布
+		    mCacheCanvas = new Canvas();	    
+		    //将图绘制到内存中的mCacheBitmap上
+		    mCacheCanvas.setBitmap(mCacheBitmap);
+		}
 	}
 
 	public int getScreenWidth() {

@@ -8,7 +8,7 @@
     <string name="title_activity_about">AboutActivity</string>
     <string name="title_activity_seek_bar">SeekBarActivity</string>
     <string name="title_activity_spinner">SpinnerActivity</string>
-	<string name="helpurl">http://blog.csdn.net/xcl168</string>
+	<string name="helpurl">http://blog.csdn.net/xcl168/article/details/29675613</string>
     <string name="spinner_label">换一换:</string>
     <string name="seekbar_label">滑动它:</string>
 </resources>

@@ -65,7 +65,7 @@ public class AboutActivity extends Activity {
         		 "<br/><big><font color ='red'>License</font></big><br/>" +
         		 "采用Apache v2 License开源协议。"+
         		 "<br/><big><font color ='red'>代码托管地址</font></big><br/>" +
-        		 "https://git.oschina.net/xclcharts/XCL-Charts";
+        		 "https://github.com/xcltapestry/XCL-Charts <br/> https://git.oschina.net/xclcharts/XCL-Charts";
          CharSequence charSequence=Html.fromHtml(html);
          tv_title.setText(charSequence);
          tv_title.setMovementMethod(LinkMovementMethod.getInstance());
