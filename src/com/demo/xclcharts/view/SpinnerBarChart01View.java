@@ -42,7 +42,7 @@ public class SpinnerBarChart01View extends GraphicalView {
 	{
 		switch(chartStyle)
 		{
-		case 0: //>竖向柱形图
+		case 0: //竖向柱形图
 			mChart = new BarChart();
 			//图例
 			mChart.getLegend().setLeftLegend("百分比");			
@@ -111,8 +111,7 @@ public class SpinnerBarChart01View extends GraphicalView {
 			//定义柱形上标签显示格式
 			mChart.getBar().setItemLabelsVisible(true);
 			mChart.getBar().getItemLabelsPaint().setColor((int)Color.rgb(72, 61, 139)); 
-			mChart.getBar().getItemLabelsPaint().setFakeBoldText(true);
-			
+			mChart.getBar().getItemLabelsPaint().setFakeBoldText(true);			
 			mChart.setItemLabelFormatter(new IFormatterDoubleCallBack() {
 				@Override
 				public String doubleFormatter(Double value) {
@@ -121,7 +120,7 @@ public class SpinnerBarChart01View extends GraphicalView {
 					String label = df.format(value).toString();				
 					return label+"%";
 				}});	       
-								
+			//绘制图表					
 			mChart.render();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -131,24 +130,24 @@ public class SpinnerBarChart01View extends GraphicalView {
 	}
 	private void chartDataSet()
 	{
-		//标签1对应的柱形数据集
-		List<Double> valuesA= new LinkedList<Double>();	
-		valuesA.add(50d); 
-		valuesA.add(25d);
-		valuesA.add(20d);
-		BarData BarDataA = new BarData("Google",valuesA,(int)Color.rgb(73, 135, 218));
+		//标签对应的柱形数据集
+		List<Double> dataSeriesA= new LinkedList<Double>();	
+		dataSeriesA.add(50d); 
+		dataSeriesA.add(25d);
+		dataSeriesA.add(20d);
+		BarData BarDataA = new BarData("Google",dataSeriesA,(int)Color.rgb(73, 135, 218));
 				
-		List<Double> valuesB= new LinkedList<Double>();	
-		valuesB.add(35d); 		
-		valuesB.add(65d);
-		valuesB.add(75d);
-		BarData BarDataB = new BarData("Baidu",valuesB,(int)Color.rgb(224, 4, 0));
+		List<Double> dataSeriesB= new LinkedList<Double>();	
+		dataSeriesB.add(35d); 		
+		dataSeriesB.add(65d);
+		dataSeriesB.add(75d);
+		BarData BarDataB = new BarData("Baidu",dataSeriesB,(int)Color.rgb(224, 4, 0));
 		
-		List<Double> valuesC= new LinkedList<Double>();	
-		valuesC.add(15d);
-		valuesC.add(10d);
-		valuesC.add(5d);
-		BarData BarDataC = new BarData("Bing",valuesC,(int)Color.rgb(255, 185, 0));
+		List<Double> dataSeriesC= new LinkedList<Double>();	
+		dataSeriesC.add(15d);
+		dataSeriesC.add(10d);
+		dataSeriesC.add(5d);
+		BarData BarDataC = new BarData("Bing",dataSeriesC,(int)Color.rgb(255, 185, 0));
 		
 		chartData.add(BarDataA);
 		chartData.add(BarDataB);

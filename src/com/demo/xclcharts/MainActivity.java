@@ -99,11 +99,7 @@ public class MainActivity extends Activity {
 			}
         };
         mListView.setOnItemClickListener(listener); 
-        
-        int currentapiVersion=android.os.Build.VERSION.SDK_INT;
-        
-        Toast toast=Toast.makeText(getApplicationContext(), "version:"+currentapiVersion, Toast.LENGTH_SHORT); 
-        toast.show(); 
+              
     }
 
     @Override

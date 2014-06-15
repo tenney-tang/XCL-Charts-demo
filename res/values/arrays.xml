@@ -5,6 +5,7 @@
  		
  		<item>竖向柱形图</item>
 	    <item>横向柱形图</item>
+	    <item>期望线柱形图</item>
 	  	<item>竖向3D柱形图 </item>
 	  	<item>横向3D柱形图</item>
 	  	<item>竖向堆叠柱形图 </item>
@@ -21,6 +22,8 @@
         <item>环形图</item>
         <item>南丁格尔玫瑰图</item>
         
+        <item>雷达图</item> 
+        
         <item>同源圆图汇总 </item>
         <item>同源柱形图汇总 </item>
                
@@ -32,6 +35,7 @@
      <string-array name="chartsDesc">
 	  <item>Bar Chart</item>
 	  <item>Bar Chart </item>
+	    <item>Bar Chart </item>
 	 
 	  <item>3D Bar Chart</item>
 	  <item>3D Bar Chart</item>
@@ -48,6 +52,8 @@
       <item>3D Pie Chart</item>     
       <item>Dount Chart</item>
       <item>Rose Chart</item>     
+      
+       <item>Polar Chart</item>    
       
       <item>同一数据源可换成不同类型的柱形类的图</item>
       <item>同一数据源可显示成不同类型的饼，环，玫瑰图等</item>     

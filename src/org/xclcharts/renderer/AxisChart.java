@@ -57,6 +57,8 @@ public class AxisChart extends XChart {
 	//是否显示Key
 	private boolean mPoltDataKeyVisible = false;
 	
+	
+	
 	public AxisChart() {
 		// TODO Auto-generated constructor stub		
 		super();
@@ -154,10 +156,8 @@ public class AxisChart extends XChart {
 	}
 	
 	
-	
 	/**
-	 * 计算主图表区范围内,这个还不完善, 如3D底座厚度...., 
-	 *  本意是依标题之类，灵活计算高度，但发现在多图表混合时，不太好用.
+	 * 计算主图表区范围内
 	 */
 	@Override
 	protected void calcPlotRange()
@@ -219,12 +219,19 @@ public class AxisChart extends XChart {
 		}
 	}
 	
-	
+	/**
+	 * 得到绘图区宽度
+	 * @return 宽度
+	 */
 	protected float getAxisScreenWidth()
 	{
 		return(Math.abs(plotArea.getPlotRight() - plotArea.getPlotLeft()));
 	}
 	
+	/**
+	 * 得到绘图区高度
+	 * @return 高度
+	 */
 	protected float getAxisScreenHeight()
 	{
 		return( Math.abs(plotArea.getPlotBottom() - plotArea.getPlotTop()));
