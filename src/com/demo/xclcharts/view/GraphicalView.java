@@ -158,8 +158,8 @@ public class GraphicalView extends View {
 			    	 mCacheBitmap.recycle();
 			    	 System.gc();
 			     }
-			  }
-			 mCacheBitmap = Bitmap.createBitmap(width,height,Config.ARGB_8888);	
+			  } 
+			 mCacheBitmap = Bitmap.createBitmap(width,height,Config.ARGB_4444);	//ARGB_8888
 		}catch(Exception ex){
 			Log.e("ERROR-GraphicalView",ex.toString());
 		}

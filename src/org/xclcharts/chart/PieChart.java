@@ -46,7 +46,9 @@ public class PieChart extends CirChart{
 	//绘制Key的画笔
 	private Paint mPaintKey = null;
 	//是否显示Key
-	private boolean mKeyVisible = true;
+	private boolean mKeyVisible = true;	
+	//突出块与中心的偏移距离
+	private final int SELECTED_OFFSET = 10;
 	
 	public PieChart()
 	{
@@ -160,7 +162,7 @@ public class PieChart extends CirChart{
 	{
 		try{
 			//偏移圆心点位置(默认偏移半径的1/10)
-	    	float newRadius = radius /10;
+	    	float newRadius = radius / SELECTED_OFFSET;
 	    	 //计算百分比标签
 	        mCalc.CalcArcEndPointXY(cirX,cirY,newRadius,offsetAgent + curretAgent/2); 	
 	        

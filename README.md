@@ -70,5 +70,9 @@
  <img src="http://img.blog.csdn.net/20140611214208953?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQveGNsMTY4/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="3D bar chart" />
 <br/>
 
- <img src="http://img.blog.csdn.net/20140615222523593?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQveGNsMTY4/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="bar chart" />
+ <img src="http://img.blog.csdn.net/20140615222523593?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQveGNsMTY4/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="dlines bar chart " />
+ &nbsp;
+  <img src="http://img.blog.csdn.net/20140616233734500?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQveGNsMTY4/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="area chart" />
+ 
+ 
 <br/>
