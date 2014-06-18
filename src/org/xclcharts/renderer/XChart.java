@@ -29,13 +29,13 @@ package org.xclcharts.renderer;
  * MODIFIED    YYYY-MM-DD   REASON
  */
 
+import org.xclcharts.common.DrawHelper;
 import org.xclcharts.renderer.plot.PlotArea;
 import org.xclcharts.renderer.plot.PlotAreaRender;
 import org.xclcharts.renderer.plot.PlotGrid;
 import org.xclcharts.renderer.plot.PlotGridRender;
 import org.xclcharts.renderer.plot.PlotTitle;
 import org.xclcharts.renderer.plot.PlotTitleRender;
-import org.xclcharts.common.DrawHelper;
 
 import android.graphics.Canvas;
 import android.graphics.Color;

@@ -22,13 +22,13 @@
 package org.xclcharts.renderer;
 
 
+import org.xclcharts.common.DrawHelper;
 import org.xclcharts.renderer.axis.DataAxis;
 import org.xclcharts.renderer.axis.DataAxisRender;
 import org.xclcharts.renderer.axis.LabelsAxis;
 import org.xclcharts.renderer.axis.LabelsAxisRender;
 import org.xclcharts.renderer.plot.Legend;
 import org.xclcharts.renderer.plot.LegendRender;
-import org.xclcharts.common.DrawHelper;
 
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -56,8 +56,6 @@ public class AxisChart extends XChart {
 		
 	//是否显示Key
 	private boolean mPoltDataKeyVisible = false;
-	
-	
 	
 	public AxisChart() {
 		// TODO Auto-generated constructor stub		
@@ -156,8 +154,10 @@ public class AxisChart extends XChart {
 	}
 	
 	
+	
 	/**
-	 * 计算主图表区范围内
+	 * 计算主图表区范围内,这个还不完善, 如3D底座厚度...., 
+	 *  本意是依标题之类，灵活计算高度，但发现在多图表混合时，不太好用.
 	 */
 	@Override
 	protected void calcPlotRange()
@@ -219,19 +219,12 @@ public class AxisChart extends XChart {
 		}
 	}
 	
-	/**
-	 * 得到绘图区宽度
-	 * @return 宽度
-	 */
+	
 	protected float getAxisScreenWidth()
 	{
 		return(Math.abs(plotArea.getPlotRight() - plotArea.getPlotLeft()));
 	}
 	
-	/**
-	 * 得到绘图区高度
-	 * @return 高度
-	 */
 	protected float getAxisScreenHeight()
 	{
 		return( Math.abs(plotArea.getPlotBottom() - plotArea.getPlotTop()));
