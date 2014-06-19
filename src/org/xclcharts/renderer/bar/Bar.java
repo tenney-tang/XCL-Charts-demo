@@ -25,8 +25,8 @@ package org.xclcharts.renderer.bar;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.xclcharts.renderer.XEnum;
 import org.xclcharts.common.DrawHelper;
+import org.xclcharts.renderer.XEnum;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
