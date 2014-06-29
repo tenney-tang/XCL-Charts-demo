@@ -24,6 +24,8 @@ package org.xclcharts.renderer;
 
 import android.graphics.Canvas;
 import org.xclcharts.common.MathHelper;
+import org.xclcharts.renderer.plot.PlotKey;
+import org.xclcharts.renderer.plot.PlotKeyRender;
 
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -33,7 +35,7 @@ import android.graphics.Paint.Align;
  * @ClassName CirChart
  * @Description 圆形类图表，如饼图，刻度盘...类的图表的基类
  * @author XiongChuanLiang<br/>(xcl_168@aliyun.com)
- *  * MODIFIED    YYYY-MM-DD   REASON
+ *  
  */
 
 public class CirChart extends XChart{
@@ -49,9 +51,9 @@ public class CirChart extends XChart{
 	
 	//初始偏移角度
 	protected int mOffsetAgent = 0;//180;
-		
-	//用于计算的辅助类
-	protected MathHelper mCalc = new MathHelper();
+	
+	//图的Key基类
+	protected PlotKeyRender plotKey = null;
 	
 		
 	public CirChart()
@@ -64,11 +66,15 @@ public class CirChart extends XChart{
 		//标签显示位置
 		mLabelLocation = XEnum.ArcLabelLocation.CENTER;
 		
+		//key值
+		plotKey = new PlotKeyRender(this);
+		
 		mPaintLabel = new Paint();
 		mPaintLabel.setColor(Color.BLACK);
 		mPaintLabel.setTextSize(18);
 		mPaintLabel.setAntiAlias(true);
 	}
+	
 	
 	@Override
 	protected void calcPlotRange()
@@ -82,6 +88,15 @@ public class CirChart extends XChart{
 			this.mRadius =  this.plotArea.getHeight() / 2;
 		}
 	}
+	
+	/**
+	 * 开放图的key基类
+	 * @return	基类
+	 */
+	public PlotKey getPlotKey()
+	{
+		return plotKey;
+	}	
 
 	
 	/**
@@ -167,21 +182,21 @@ public class CirChart extends XChart{
 				calcRadius = radius - radius/2;
 				calcAgent = offsetAgent + curretAgentt/2;
 				//计算百分比标签
-				mCalc.calcArcEndPointXY(cirX, cirY, calcRadius, calcAgent); 	
+				MathHelper.getInstance().calcArcEndPointXY(cirX, cirY, calcRadius, calcAgent); 	
 					 
 				//标识
 				canvas.drawText( text ,
-					 mCalc.getPosX(), mCalc.getPosY() ,mPaintLabel);
+						MathHelper.getInstance().getPosX(), MathHelper.getInstance().getPosY() ,mPaintLabel);
 		}else if(XEnum.ArcLabelLocation.OUTSIDE == mLabelLocation){
 				//显示在扇形的外部
 				calcRadius = radius  + radius/10;
 				calcAgent = offsetAgent + curretAgentt/2;
 				//计算百分比标签
-				mCalc.calcArcEndPointXY(cirX, cirY, calcRadius, calcAgent); 	
+				MathHelper.getInstance().calcArcEndPointXY(cirX, cirY, calcRadius, calcAgent); 	
 					 
 				//标识
 				canvas.drawText(text,
-					 mCalc.getPosX(), mCalc.getPosY() ,mPaintLabel);          	
+						MathHelper.getInstance().getPosX(), MathHelper.getInstance().getPosY() ,mPaintLabel);          	
 		}else{
 			return;
 		}		 

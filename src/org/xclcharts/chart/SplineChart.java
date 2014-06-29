@@ -27,19 +27,21 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map.Entry;
 
-import android.graphics.Canvas;
+import org.xclcharts.common.IFormatterTextCallBack;
 import org.xclcharts.renderer.LnChart;
 import org.xclcharts.renderer.XEnum;
 import org.xclcharts.renderer.line.PlotDot;
+import org.xclcharts.renderer.line.PlotDotRender;
 import org.xclcharts.renderer.line.PlotLine;
 
+import android.graphics.Canvas;
 import android.graphics.Paint.Align;
 
 /**
  * @ClassName SplineChart
  * @Description  曲线图基类
  * @author XiongChuanLiang<br/>(xcl_168@aliyun.com)
- *  * MODIFIED    YYYY-MM-DD   REASON
+ *  
  */
 public class SplineChart extends LnChart{
 	
@@ -49,6 +51,9 @@ public class SplineChart extends LnChart{
 	//分类轴的最大，最小值
 	private float mMaxValue = 0.0f;
 	private float mMinValue = 0.0f;
+	
+	// 用于格式化标签的回调接口
+	private IFormatterTextCallBack mLabelFormatter;
 		
 	public SplineChart()
 	{
@@ -99,6 +104,30 @@ public class SplineChart extends LnChart{
 	}	
 	
 	/**
+	 * 设置标签的显示格式
+	 * @param callBack 回调函数
+	 */
+	public void setDotLabelFormatter(IFormatterTextCallBack callBack) {
+		this.mLabelFormatter = callBack;
+	}
+	
+	/**
+	 * 返回标签显示格式
+	 * 
+	 * @param value 传入当前值
+	 * @return 显示格式
+	 */
+	protected String getFormatterDotLabel(String text) {
+		String itemLabel = "";
+		try {
+			itemLabel = mLabelFormatter.textFormatter(text);
+		} catch (Exception ex) {
+			itemLabel = text;
+		}
+		return itemLabel;
+	}
+	
+	/**
 	 * 绘制线
 	 * @param bd	数据集
 	 * @param type	处理类型号
@@ -117,7 +146,8 @@ public class SplineChart extends LnChart{
 		float axisDataHeight = (float) dataAxis.getAxisRange(); //getAxisDataRange();		
 		
 		//得到标签对应的值数据集		
-		LinkedHashMap<Double,Double> chartValues = bd.getLineDataSet();		
+		LinkedHashMap<Double,Double> chartValues = bd.getLineDataSet();	
+		
 															
 	    //画出数据集对应的线条				
 		int j = 0;	
@@ -160,7 +190,7 @@ public class SplineChart extends LnChart{
                 		PlotDot pDot = pLine.getPlotDot();	                
                 		rendEndX  = lineEndX  + pDot.getDotRadius();               		
             			
-                		renderDot(canvas,pDot,
+                		PlotDotRender.getInstance().renderDot(canvas,pDot,
                 				lineStartX ,lineStartY ,
                 				lineEndX ,lineEndY,
                 				pLine.getDotPaint()); //标识图形            			                	
@@ -168,9 +198,10 @@ public class SplineChart extends LnChart{
                 	}
             		
             		if(bd.getLabelVisible())
-                	{
+                	{            			
                 		//fromatter
-                        canvas.drawText("("+Double.toString(xValue)+","+ Double.toString(yValue) +")",
+                        canvas.drawText(
+                        		getFormatterDotLabel(Double.toString(xValue)+","+ Double.toString(yValue)),
     							lineEndX, lineEndY,  pLine.getDotLabelPaint());
                 	}
             	}else{
@@ -204,7 +235,8 @@ public class SplineChart extends LnChart{
 			renderLine(canvas, mDataset.get(i),"DOT2LABEL");
 			lstKey.add(mDataset.get(i));
 		}	
-		renderKey(canvas,lstKey);
+		//key
+		plotKey.renderLineKey(canvas,lstKey);
 	}
 	
 	@Override

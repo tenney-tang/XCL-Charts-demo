@@ -33,15 +33,18 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Align;
 import android.graphics.Paint.Style;
+import android.util.Log;
 
 /**
  * @ClassName Bar
  * @Description  柱形基类，定义了柱形的一些属性
  * @author XiongChuanLiang<br/>(xcl_168@aliyun.com)
- *  * MODIFIED    YYYY-MM-DD   REASON
+ *  
  */
 
 public class Bar {
+	
+	private static final String TAG ="Bar";
 	
 	//确定是横向柱形还是竖向柱形图
 	private XEnum.Direction mBarDirection = XEnum.Direction.VERTICAL;
@@ -58,6 +61,9 @@ public class Bar {
 	private float mItemLabelRotateAgent = 0.0f;	
 	//是否显示柱形顶上文字标签
 	private boolean mShowItemLabel = false;		
+	
+	//柱形间距所占比例
+	private double mBarSpacePercentage = 0.2;
 	
 	public Bar()
 	{				
@@ -149,6 +155,30 @@ public class Bar {
 	}
 	
 	/**
+	 * 设置柱形间空白所占的百分比
+	 * @param percentage 百分比
+	 */
+	public void setBarSpacePercentage(double percentage)
+	{
+		if(percentage < 0d)
+		{
+			Log.e(TAG, "此比例不能为负数噢!");
+		}else{
+			this.mBarSpacePercentage = percentage;
+		}
+	}
+	
+	/**
+	 * 得到柱形间空白所占的百分比
+	 * @return 百分比
+	 */
+	public double getBarSpacePercentage()
+	{
+		return mBarSpacePercentage;
+	}
+	
+	
+	/**
 	 * 返回是否显示柱形顶部标签
 	 * @return 是否显示
 	 */
@@ -165,8 +195,9 @@ public class Bar {
 	 */	
 	protected List<Integer> calcBarHeightAndMargin(float YSteps,int barNumber)
 	{
+			//int barPercentage = 1 - mBarSpacePercentage;					
 			int labelBarTotalHeight = (int) Math.round(YSteps * 0.9);
-			int barTotalInnerMargin = (int) Math.round(labelBarTotalHeight * 0.2);				
+			int barTotalInnerMargin = (int) Math.round(labelBarTotalHeight * mBarSpacePercentage); //0.2);				
 			int barInnerMargin = barTotalInnerMargin / barNumber;
 			int barHeight = (labelBarTotalHeight - barTotalInnerMargin) / barNumber;
 			
@@ -185,8 +216,13 @@ public class Bar {
 	 */
 	protected List<Integer> calcBarWidthAndMargin(float XSteps,int barNumber)
 	{
+			//int barPercentage = 1 - mBarSpacePercentage;
+		
 			int labelBarTotalWidth = (int) Math.round(XSteps * 0.9); 	
-			int barTotalInnerMargin = (int) Math.round(labelBarTotalWidth * 0.2); 	
+			//int barTotalInnerMargin = (int) Math.round(labelBarTotalWidth * 0.2); 	
+			
+			int barTotalInnerMargin = (int) Math.round(labelBarTotalWidth * mBarSpacePercentage);
+			
 			int barTotalWidth = labelBarTotalWidth - barTotalInnerMargin;	   	
 			
 			int barInnerMargin = barTotalInnerMargin / barNumber;
@@ -207,12 +243,10 @@ public class Bar {
 	 */
 	protected void drawBarItemLabel(String text,float x,float y,Canvas canvas)
 	{
-		//在柱形的顶端显示上柱形的当前值
-			
+		//在柱形的顶端显示上柱形的当前值			
 		if(getItemLabelsVisible())
-		{		
-			DrawHelper dw = new DrawHelper();	
-			dw.drawRotateText(text,
+		{				
+			DrawHelper.getInstance().drawRotateText(text,
 								x ,
 								y,
 	            			  getItemLabelRotateAgent(),

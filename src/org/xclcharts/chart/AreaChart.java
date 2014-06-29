@@ -29,6 +29,7 @@ import android.graphics.Canvas;
 import org.xclcharts.renderer.LnChart;
 import org.xclcharts.renderer.XEnum;
 import org.xclcharts.renderer.line.PlotDot;
+import org.xclcharts.renderer.line.PlotDotRender;
 import org.xclcharts.renderer.line.PlotLine;
 
 import android.graphics.Color;
@@ -127,7 +128,7 @@ public class AreaChart extends LnChart{
         PlotLine pLine = bd.getPlotLine(); 
         //设置当前填充色
         mPaintAreaFill.setColor(bd.getAreaFillColor());
-        
+            
 		int j = 0;					 
 		for(Double bv : chartValues)
         {								
@@ -160,14 +161,13 @@ public class AreaChart extends LnChart{
         		canvas.drawLine( lineStartX ,lineStartY ,lineEndX ,lineEndY,
         												pLine.getLinePaint());            	
         	}else if(type.equalsIgnoreCase("DOT2LABEL")){
-        		
-        		
+        		        		
         		if(!pLine.getDotStyle().equals(XEnum.DotStyle.HIDE))
             	{            	
             		PlotDot pDot = pLine.getPlotDot();	              
             		float rendEndX  = lineEndX  + pDot.getDotRadius();               		
         			
-            		renderDot(canvas,pDot,
+            		PlotDotRender.getInstance().renderDot(canvas,pDot,
             				lineStartX ,lineStartY ,
             				lineEndX ,lineEndY,
             				pLine.getDotPaint()); //标识图形            			                	
@@ -175,9 +175,9 @@ public class AreaChart extends LnChart{
             	}
         		
         		if(bd.getLabelVisible())
-            	{
+            	{        			
             		//fromatter
-            		canvas.drawText(Double.toString(bv) ,
+            		canvas.drawText(this.getFormatterItemLabel(bv) ,
 							lineEndX, lineEndY,  pLine.getDotLabelPaint());
             	}
         	}else{
@@ -210,12 +210,14 @@ public class AreaChart extends LnChart{
 		//开始处 X 轴 即分类轴                  
 		for(int i=0;i<mDataset.size();i++)
 		{								
-			this.renderLine(canvas, mDataset.get(i),"LINE",(int)Math.round(mDataset.size() *i));
-			this.renderLine(canvas, mDataset.get(i),"DOT2LABEL",(int)Math.round(mDataset.size() *i));
+			this.renderLine(canvas, mDataset.get(i),"LINE",
+						(int)Math.round(mDataset.size() *i));
+			this.renderLine(canvas, mDataset.get(i),"DOT2LABEL",
+						(int)Math.round(mDataset.size() *i));
 			lstKey.add(mDataset.get(i));
 		}
 			
-		renderKey(canvas, lstKey);
+		plotKey.renderLineKey(canvas, lstKey);
 	}
 	
 

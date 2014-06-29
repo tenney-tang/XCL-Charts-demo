@@ -38,7 +38,7 @@ import android.graphics.Shader;
  * @ClassName Bar3D
  * @Description  3d柱形类，增加柱形的一些3D效果处理
  * @author XiongChuanLiang<br/>(xcl_168@aliyun.com)
- *  * MODIFIED    YYYY-MM-DD   REASON
+ *  
  */
 
 public class Bar3D extends Bar{
@@ -56,10 +56,9 @@ public class Bar3D extends Bar{
 	private Paint mPaintBase3D = null;
 	//3D效果厚度
 	private int mAxisBaseThickness = 20;
-	
+	//底盘颜色
 	private int mAxisBaseColor = (int)Color.rgb(73, 172, 72);
 	
-	DrawHelper mDrawHelper = new DrawHelper();
 	
 	public Bar3D()
 	{
@@ -68,8 +67,6 @@ public class Bar3D extends Bar{
 		mPaintBase = new Paint();
 		mPaintBase3D = new Paint();		
 	}
-
-	
 
 	/**
 	 * 得到水平偏移量
@@ -152,7 +149,7 @@ public class Bar3D extends Bar{
 			  Canvas canvas)
 	{
 		//浅色	
-		int lightColor = mDrawHelper.getLightColor(color,mAlpha);
+		int lightColor = DrawHelper.getInstance().getLightColor(color,mAlpha);
 		
 		mPaintBar.setColor(color);		
 		mPaint3D.setColor(lightColor);
@@ -231,7 +228,7 @@ public class Bar3D extends Bar{
 			  Canvas canvas) //	  int color,
 	{
 		//浅色	
-		int baseLightColor = this.mDrawHelper.getLightColor(getAxis3DBaseColor(), mAlpha);		
+		int baseLightColor = DrawHelper.getInstance().getLightColor(getAxis3DBaseColor(), mAlpha);		
 		mPaintBase.setColor(getAxis3DBaseColor());		
 		mPaintBase3D.setColor(baseLightColor);
 		
@@ -305,7 +302,7 @@ public class Bar3D extends Bar{
 			  Canvas canvas)
 	{
 		//浅色
-		int lightColor =  mDrawHelper.getLightColor(color,mAlpha);
+		int lightColor =  DrawHelper.getInstance().getLightColor(color,mAlpha);
 		
 		mPaintBar.setColor(color);		
 		mPaint3D.setColor(lightColor);
@@ -360,11 +357,12 @@ public class Bar3D extends Bar{
 	 * @param baseBottom	底部Y坐标
 	 * @param canvas	画布
 	 */
-	 public void render3DYAxis(float baseLeft,float baseTop,float baseRight,float baseBottom,						
+	 public void render3DYAxis(float baseLeft,float baseTop,
+			 					float baseRight,float baseBottom,						
 			  					Canvas canvas) 
 	{
 		//浅色
-		int baseLightColor = this.mDrawHelper.getLightColor(getAxis3DBaseColor(), mAlpha);						
+		int baseLightColor = DrawHelper.getInstance().getLightColor(getAxis3DBaseColor(), mAlpha);						
 		mPaintBase.setColor(getAxis3DBaseColor());		
 		mPaintBase3D.setColor(baseLightColor);
 		
@@ -415,7 +413,7 @@ public class Bar3D extends Bar{
 		 * @param thickness 厚度
 		 */
 		public void setThickness(int thickness) {
-			this.mThickness = mThickness;
+			this.mThickness =  thickness;
 		}
 
 		/**
@@ -431,7 +429,7 @@ public class Bar3D extends Bar{
 		 * @param angle 角度
 		 */
 		public void setAngle(int angle) {
-			this.mAngle = mAngle;
+			this.mAngle = angle;
 		}
 		
 		/**

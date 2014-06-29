@@ -23,14 +23,11 @@ package org.xclcharts.chart;
 
 import java.util.List;
 
-import android.graphics.Canvas;
+import org.xclcharts.common.MathHelper;
 import org.xclcharts.renderer.CirChart;
-import org.xclcharts.common.DrawHelper;
 
-import android.graphics.Color;
+import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.graphics.Paint.Align;
-import android.graphics.Paint.Style;
 import android.graphics.RectF;
 import android.util.Log;
 
@@ -38,7 +35,7 @@ import android.util.Log;
  * @ClassName PieChart
  * @Description  饼图基类
  * @author XiongChuanLiang<br/>(xcl_168@aliyun.com)
- *  * MODIFIED    YYYY-MM-DD   REASON
+ *  
  */
 public class PieChart extends CirChart{
 	
@@ -46,48 +43,12 @@ public class PieChart extends CirChart{
 
 	//数据源
 	private List<PieData> mDataset;
-	//绘制Key的画笔
-	private Paint mPaintKey = null;
-	//是否显示Key
-	private boolean mKeyVisible = true;
-	
+
 	public PieChart()
 	{
 		super();
-		
-		mPaintKey = new Paint();
-		mPaintKey.setColor(Color.BLACK);
-		mPaintKey.setTextSize(18);
-		mPaintKey.setStyle(Style.FILL);	
-		mPaintKey.setAntiAlias(true);
 	}
-	
-	/**
-	 * 开放Key画笔
-	 * @return 画笔
-	 */
-	public Paint getKeyPaint()
-	{
-		return mPaintKey;
-	}
-	
-	/**
-	 * 是否绘制Key
-	 * @return Key值
-	 */
-	public boolean getKeyVisible()
-	{
-		return mKeyVisible;
-	}
-	
-	/**
-	 * 设置是否绘制Key
-	 * @param visible 是否绘制Key
-	 */
-	public void setKeyVisible(boolean visible)
-	{
-		mKeyVisible = visible;
-	}
+
 
 	/**
 	 * 设置图表的数据源
@@ -106,7 +67,6 @@ public class PieChart extends CirChart{
 	{
 		return mDataset;
 	}
-
 		
 	/**
 	 * 绘制指定角度扇区
@@ -165,19 +125,21 @@ public class PieChart extends CirChart{
 			//偏移圆心点位置(默认偏移半径的1/10)
 	    	float newRadius = radius /10;
 	    	 //计算百分比标签
-	        mCalc.calcArcEndPointXY(cirX,cirY,newRadius,offsetAgent + curretAgent/2); 	
+	    	MathHelper.getInstance().calcArcEndPointXY(cirX,cirY,
+	    							newRadius,offsetAgent + curretAgent/2); 	
 	        
-	        float arcLeft = mCalc.getPosX() - radius;  
-	        float arcTop  = mCalc.getPosY() - radius ;  
-	        float arcRight = mCalc.getPosX() + radius ;  
-	        float arcBottom = mCalc.getPosY() + radius ;  
+	        float arcLeft = MathHelper.getInstance().getPosX() - radius;  
+	        float arcTop  = MathHelper.getInstance().getPosY() - radius ;  
+	        float arcRight = MathHelper.getInstance().getPosX() + radius ;  
+	        float arcBottom = MathHelper.getInstance().getPosY() + radius ;  
 	        RectF arcRF1 = new RectF(arcLeft ,arcTop,arcRight,arcBottom);   
 	        
 	        //在饼图中显示所占比例  
 	        canvas.drawArc(arcRF1, offsetAgent, curretAgent, true, paintArc);
 	        
 	        //标签
-	        renderLabel(canvas,cData.getLabel(),mCalc.getPosX(), mCalc.getPosY(),
+	        renderLabel(canvas,cData.getLabel(),MathHelper.getInstance().getPosX(), 
+	        									MathHelper.getInstance().getPosY(),
 	        			radius,offsetAgent,curretAgent);	   
 	        
 		}catch( Exception e){
@@ -185,63 +147,6 @@ public class PieChart extends CirChart{
 		}
 	}
 	
-	/**
-	 * 绘制key
-	 */
-	protected void renderKey(Canvas canvas)
-	{
-		
-		  if(!getKeyVisible())return ;
-		    
-			DrawHelper dw = new DrawHelper();
-			float textHeight = dw.getPaintFontHeight(this.mPaintKey);
-			float rectWidth = 2 *textHeight;		
-			float currentX = 0.0f; 				
-			float currentY = 0.0f;
-			
-			if(!isVerticalScreen()) //横屏
-			{
-				mPaintKey.setTextAlign(Align.RIGHT);
-				currentX = plotArea.getRight();
-				currentY = this.plotArea.getTop() + textHeight;			
-			}else{
-				mPaintKey.setTextAlign(Align.LEFT);
-				currentX = plotArea.getLeft();
-				currentY = this.plotArea.getBottom();			
-			}			
-			
-			int totalTextWidth = 0;
-			for(PieData cData : mDataset)
-			{
-				mPaintKey.setColor(cData.getSliceColor());							
-				if( !isVerticalScreen()) //横屏
-				{								
-					canvas.drawRect(currentX			 , currentY,
-										  currentX - rectWidth, currentY - textHeight, 
-										  mPaintKey);					
-					
-					canvas.drawText(cData.getKey(),currentX - rectWidth, currentY, mPaintKey);
-					currentY += textHeight;
-				
-				}else{ //竖屏			
-					int keyTextWidth = dw.getTextWidth(mPaintKey, cData.getKey());
-					totalTextWidth += keyTextWidth;
-					
-					if(totalTextWidth > plotArea.getWidth())
-					{
-						currentY += textHeight;
-						currentX = plotArea.getLeft();
-						totalTextWidth = 0;
-					}				
-					canvas.drawRect(currentX			   , currentY,
-									 currentX + rectWidth, currentY - textHeight, 
-									 mPaintKey);						
-					canvas.drawText(cData.getKey(), currentX + rectWidth, currentY, mPaintKey);
-					currentX += rectWidth + keyTextWidth + 5;
-				}									
-			}	
-	}
-
 	/**
 	 * 绘制图
 	 */
@@ -288,7 +193,9 @@ public class PieChart extends CirChart{
 	          //下次的起始角度  
 	            mOffsetAgent += currentAgent;  
 			}					
-			renderKey(canvas);
+			
+			//图KEY
+			plotKey.renderPieKey(canvas,this.mDataset);
 		
 		 }catch( Exception e){
 			 Log.e(TAG,e.toString());
@@ -309,7 +216,8 @@ public class PieChart extends CirChart{
 			if( totalAgent > 360)
 			{
 				//圆心角总计大于360度
-				Log.e("PieChart","传入参数不合理，圆心角总计大于360度. 现有圆心角合计:"+Float.toString(totalAgent));
+				Log.e(TAG,"传入参数不合理，圆心角总计大于360度. 现有圆心角合计:"
+							+Float.toString(totalAgent));
 				return false;
 			}
 		}

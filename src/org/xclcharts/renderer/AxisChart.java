@@ -22,23 +22,24 @@
 package org.xclcharts.renderer;
 
 
-import android.graphics.Canvas;
 import org.xclcharts.common.DrawHelper;
-import org.xclcharts.renderer.axis.DataAxis;
-import org.xclcharts.renderer.axis.DataAxisRender;
+import org.xclcharts.common.IFormatterDoubleCallBack;
 import org.xclcharts.renderer.axis.CategoryAxis;
 import org.xclcharts.renderer.axis.CategoryAxisRender;
+import org.xclcharts.renderer.axis.DataAxis;
+import org.xclcharts.renderer.axis.DataAxisRender;
 import org.xclcharts.renderer.plot.Legend;
 import org.xclcharts.renderer.plot.LegendRender;
+import org.xclcharts.renderer.plot.PlotKey;
+import org.xclcharts.renderer.plot.PlotKeyRender;
 
-import android.graphics.Color;
-import android.graphics.Paint;
+import android.graphics.Canvas;
 
 /**
  * @ClassName AxisChart
  * @Description 所有用到坐标类的图表的基类,主要用于定义和绘制坐标轴
  * @author XiongChuanLiang<br/>(xcl_168@aliyun.com)
- *  * MODIFIED    YYYY-MM-DD   REASON
+ *  
  */
 
 public class AxisChart extends XChart {
@@ -49,14 +50,11 @@ public class AxisChart extends XChart {
 	protected CategoryAxisRender categoryAxis  = null;	
 	//图例类
 	protected LegendRender legend = null;
+	//图的Key基类
+	protected PlotKeyRender plotKey = null;
 	
-	//数据集的说明描述与图这间的空白间距
-	private float mDataKeyMargin  = 10f;	
-	//数据集的说明描述画笔
-	private Paint mDataKeyPaint = null;
-		
-	//是否显示Key
-	private boolean mKeyLabelVisible = false;
+	//格式化柱形顶上或线交叉点的标签
+	private IFormatterDoubleCallBack mItemLabelFormatter;
 	
 	public AxisChart() {
 		// TODO Auto-generated constructor stub		
@@ -80,65 +78,19 @@ public class AxisChart extends XChart {
 		//图例
 		legend = new LegendRender();
 		
-		mDataKeyPaint = new Paint();
-		mDataKeyPaint.setColor(Color.BLACK);		
+		//key值
+		plotKey = new PlotKeyRender(this);
 	}
-	
-	/**
-	 * 在图的上方显示键值(key)的标签说明
-	 * 
-	 */
-	public void showKeyLabels()
-	{
-		mKeyLabelVisible = true;
-	}
-	
-	/**
-	 * 在图的上方不显示键值(key)的标签说明
-	 */
-	public void hideKeyLabels()
-	{
-		mKeyLabelVisible = false;
-	}
-	
 	
 	
 	/**
-	 * 是否需绘制图的key
-	 * @return 是否显示
+	 * 开放图的key基类
+	 * @return	基类
 	 */
-	public boolean isShowKeyLabels()
+	public PlotKey getPlotKey()
 	{
-		return mKeyLabelVisible;
-	}
-	 
-	 /**
-	  * 开放Key绘制画笔
-	  * @return 画笔
-	  */
-	 public Paint getKeyLabelPaint()
-	 {		 
-		 return mDataKeyPaint;
-	 }
-	 
-	 /**
-	  * 设置Key间距
-	  * @param margin Key间距
-	  */
-	 public void setKeyLabelMargin(float margin)
-	 {		 
-		 mDataKeyMargin = margin;
-	 }
-	 
-	 /**
-	  * 返回Key间距
-	  * @return Key间距
-	  */
-	 public float getKeyLabelMargin()
-	 {
-		 return mDataKeyMargin;
-	 }
-
+		return plotKey;
+	}		
 
 	 /**
 	  * 开放数据轴绘制类
@@ -174,8 +126,7 @@ public class AxisChart extends XChart {
 	protected void calcPlotRange()
 	{				
 		super.calcPlotRange();
-		DrawHelper dw = new DrawHelper();
-		
+				
 		//图的内边距属性
 		float perLeft = getPaddingLeft();
 		float perRight = getPaddingRight();
@@ -200,7 +151,7 @@ public class AxisChart extends XChart {
 			float rederLeft = Math.round( height / 100 * perLeft);		
 			if(this.getLegend().getLeftLegend().length() > 0)
 			{	
-				float legendLength = dw.getPaintFontHeight(getLegend().getLeftLegendPaint());
+				float legendLength = DrawHelper.getInstance().getPaintFontHeight(getLegend().getLeftLegendPaint());
 				if(legendLength > rederLeft) rederLeft = legendLength;
 			}
 			plotArea.setLeft( getLeft() + rederLeft);
@@ -211,7 +162,8 @@ public class AxisChart extends XChart {
 			float rederRight =  Math.round( width / 100 * perRight);
 			if(this.getLegend().getRightLegend().length() > 0)
 			{	
-				float legendLength = dw.getPaintFontHeight(getLegend().getRightLegendPaint());	
+				float legendLength = DrawHelper.getInstance().getPaintFontHeight(
+												getLegend().getRightLegendPaint());	
 				if(legendLength > rederRight ) rederRight = legendLength;
 			}
 			plotArea.setRight(this.getRight() - rederRight);	
@@ -222,7 +174,8 @@ public class AxisChart extends XChart {
 			float rederBottom = Math.round( height / 100 * perBottom );
 			if(this.getLegend().getLowerLegend().length() > 0)
 			{			
-				float legendHeight = dw.getPaintFontHeight(getLegend().getLowerLegendPaint());	
+				float legendHeight = DrawHelper.getInstance().getPaintFontHeight(
+													getLegend().getLowerLegendPaint());	
 				if(legendHeight > rederBottom ) rederBottom = legendHeight;
 			}
 			plotArea.setBottom(this.getBottom() - rederBottom);	
@@ -248,6 +201,33 @@ public class AxisChart extends XChart {
 		return( Math.abs(plotArea.getBottom() - plotArea.getTop()));
 	}
 	
+	/**
+	 * 设置标签显示格式
+	 * 
+	 * @param callBack
+	 *            回调函数
+	 */
+	public void setItemLabelFormatter(IFormatterDoubleCallBack callBack) {
+		this.mItemLabelFormatter = callBack;
+	}
+
+	/**
+	 * 返回标签显示格式
+	 * 
+	 * @param value 传入当前值
+	 * @return 显示格式
+	 */
+	protected String getFormatterItemLabel(double value) {
+		String itemLabel = "";
+		try {
+			itemLabel = mItemLabelFormatter.doubleFormatter(value);
+		} catch (Exception ex) {
+			itemLabel = Double.toString(value);
+			// DecimalFormat df=new DecimalFormat("#0");
+			// itemLabel = df.format(value).toString();
+		}
+		return itemLabel;
+	}
 	
 	protected boolean postRender(Canvas canvas) throws Exception
 	{
@@ -275,12 +255,9 @@ public class AxisChart extends XChart {
 	public boolean render(Canvas canvas) throws Exception {
 		// TODO Auto-generated method stub
 	
-		try {
-		
+		try {		
 			super.render(canvas);
-			
-			
-			
+									
 		}catch( Exception e){
 			 throw e;
 		}

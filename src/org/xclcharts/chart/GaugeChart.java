@@ -25,6 +25,8 @@ package org.xclcharts.chart;
 import java.util.List;
 
 import android.graphics.Canvas;
+
+import org.xclcharts.common.MathHelper;
 import org.xclcharts.renderer.CirChart;
 
 import android.graphics.Color;
@@ -39,12 +41,12 @@ import android.util.Pair;
  * @ClassName GaugeChart
  * @Description  刻度盘基类
  * @author XiongChuanLiang<br/>(xcl_168@aliyun.com)
- *  * MODIFIED    YYYY-MM-DD   REASON
+ *  
  */
 
 public class GaugeChart extends CirChart{
-	
-	/////////////////////////////////////////////
+		
+	private String TAG = "GaugeChart";
 	//刻度步长
 	private double mTickSteps = 10d;
 	//标签
@@ -248,10 +250,12 @@ public class GaugeChart extends CirChart{
 						cirX + calcRadius, cirY ,this.getLabelPaint());   				
 			}else{				
 				//计算百分比标签
-				mCalc.calcArcEndPointXY(cirX, cirY, calcRadius, 180 + i *stepsAgent); 
+				MathHelper.getInstance().calcArcEndPointXY(
+								cirX, cirY, calcRadius, 180 + i *stepsAgent); 
 				//标识
                 canvas.drawText(label,
-					 mCalc.getPosX(), mCalc.getPosY() ,this.getLabelPaint());   
+                		MathHelper.getInstance().getPosX(), 
+                		MathHelper.getInstance().getPosY() ,this.getLabelPaint());   
 				
 			}
 			i++;
@@ -273,13 +277,14 @@ public class GaugeChart extends CirChart{
 		{
 			if(0 == i)continue;			
 			float agent =  (float) (180 + i *stepsAgent) ;				
-			mCalc.calcArcEndPointXY(cirX, cirY, getRadius(), agent); 			
+			MathHelper.getInstance().calcArcEndPointXY(cirX, cirY, getRadius(), agent); 			
 			
-			float startX = mCalc.getPosX();
-			float startY = mCalc.getPosY();
-			mCalc.calcArcEndPointXY(cirX, cirY,tickRadius, agent); 		
+			float startX = MathHelper.getInstance().getPosX();
+			float startY = MathHelper.getInstance().getPosY();
+			MathHelper.getInstance().calcArcEndPointXY(cirX, cirY,tickRadius, agent); 		
 			
-			canvas.drawLine(startX, startY, mCalc.getPosX(), mCalc.getPosY(), mPaintTick);
+			canvas.drawLine(startX, startY, MathHelper.getInstance().getPosX(), 
+											MathHelper.getInstance().getPosY(), mPaintTick);
 		}
 	}	
 	
@@ -290,17 +295,18 @@ public class GaugeChart extends CirChart{
 	{		
 		if(mPointerAgent > 180) //爆表了 
 		{
-			Log.e("ERROR-GaugeChart","爆表了 !!!");
+			Log.e(TAG,"爆表了 !!!");
 		}else if(mPointerAgent < 0){
-			Log.e("ERROR-GaugeChart","负角度???!!!");
+			Log.e(TAG,"负角度???!!!");
 		}else{
 			float currentRadius = Math.round(this.getRadius() * 0.9);
 			float calcAgent =  Math.round( mPointerAgent + mStartAgent );
 			float cirX = plotArea.getCenterX();
 			float cirY = plotArea.getCenterY();
 					
-			mCalc.calcArcEndPointXY(cirX, cirY, currentRadius, calcAgent);
-            canvas.drawLine(cirX, cirY, mCalc.getPosX(), mCalc.getPosY(), mPaintPointerLine);
+			MathHelper.getInstance().calcArcEndPointXY(cirX, cirY, currentRadius, calcAgent);
+            canvas.drawLine(cirX, cirY, MathHelper.getInstance().getPosX(),
+            							MathHelper.getInstance().getPosY(), mPaintPointerLine);
 		}		
 	}
 	
@@ -334,10 +340,10 @@ public class GaugeChart extends CirChart{
 		 {			
 			 Integer agentValue = (Integer) pr.first;					 
 			 if(agentValue < 0){
-					Log.e("ERROR","负角度???!!!");
+					Log.e(TAG,"负角度???!!!");
 			 }else if((totalAgent + agentValue) > 180)
 		     {
-		    	 Log.e("ERROR","输入的角度总计大于mStartAgent度");
+		    	 Log.e(TAG,"输入的角度总计大于mStartAgent度");
 		    	 return ;
 		     }			 			 
 			 mPaintPartitionFill.setColor((Integer) pr.second);				 
@@ -353,7 +359,8 @@ public class GaugeChart extends CirChart{
 	 */
 	private void renderDount(Canvas canvas) throws Exception
 	{		
-		 drawPercent(canvas, mPaintDount,plotArea.getCenterX(),plotArea.getCenterY(),getRadius(),180, 180);
+		 drawPercent(canvas, mPaintDount,plotArea.getCenterX(),plotArea.getCenterY(),
+				 			getRadius(),180, 180);
 	}
 	
 	/**
@@ -361,8 +368,7 @@ public class GaugeChart extends CirChart{
 	 */
 	protected void renderPlot(Canvas canvas)
 	{
-		try{	
-			
+		try{				
 			 //外环
 			 renderDount(canvas);
 		     //依角度画好刻度线
@@ -379,7 +385,7 @@ public class GaugeChart extends CirChart{
 			
 				
 		}catch( Exception e){
-			Log.e("ERROR",e.toString());
+			Log.e(TAG,e.toString());
 		}
 		
 	}
@@ -388,7 +394,6 @@ public class GaugeChart extends CirChart{
 	@Override
 	protected boolean postRender(Canvas canvas) throws Exception 
 	{
-		// 绘制图表
 		try {
 			super.postRender(canvas);
 			
