@@ -1,4 +1,2 @@
 INDEX VERSION 1.126+E:\GitHub\GitOSC\XCL-Charts\.metadata\.plugins\org.eclipse.jdt.core
-764411934.index
-1333227057.index
-4070145261.index
+472114098.index
