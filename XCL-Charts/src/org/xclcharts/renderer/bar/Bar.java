@@ -65,6 +65,9 @@ public class Bar {
 	//柱形间距所占比例
 	private double mBarInnerMargin = 0.2;
 	
+	//FlatBar类的有效，3D柱形无效
+	private XEnum.BarStyle mBarStyle = XEnum.BarStyle.GRADIENT;
+	
 	public Bar()
 	{				
 		initPaint();
@@ -163,6 +166,8 @@ public class Bar {
 		if(percentage < 0d)
 		{
 			Log.e(TAG, "此比例不能为负数噢!");
+		}if(percentage >= 0.9d){
+			Log.e(TAG, "此比例不能大于等于0.9,要给柱形留下点显示空间!");
 		}else{
 			this.mBarInnerMargin = percentage;
 		}
@@ -250,6 +255,24 @@ public class Bar {
 	            			  canvas, 
 	            			  getItemLabelPaint());	
 		}
+	}
+	
+	/**
+	 * 设置柱形的显示风格，对3D柱形无效
+	 * @param style 显示风格
+	 */
+	public void setBarStyle(XEnum.BarStyle style)
+	{
+		this.mBarStyle = style;
+	}
+	
+	/**
+	 * 返回当前柱形的显示风格,对3D柱形无效
+	 * @return 显示风格
+	 */
+	public XEnum.BarStyle getBarStyle()
+	{
+		return this.mBarStyle;
 	}
 
 }

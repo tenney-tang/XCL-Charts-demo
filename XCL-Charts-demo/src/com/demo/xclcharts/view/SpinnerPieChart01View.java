@@ -20,7 +20,7 @@ public class SpinnerPieChart01View extends GraphicalView {
 
 	private PieChart mChart = null;
 	private int mChartStyle = 0;
-	private int mMoveHeight = 0;
+	private int mOffsetHeight = 0;
 	
 	private LinkedList<PieData> chartData = new LinkedList<PieData>();
 
@@ -28,7 +28,7 @@ public class SpinnerPieChart01View extends GraphicalView {
 		super(context);
 		// TODO Auto-generated constructor stub
 		mChartStyle = chartStyle;
-		mMoveHeight = moveHeight;
+		mOffsetHeight = moveHeight;
 		chartDataSet();	
 		chartRender();
 	}
@@ -39,12 +39,12 @@ public class SpinnerPieChart01View extends GraphicalView {
  		{
  		case 0: //饼图
  			mChart = new PieChart();
- 			mChart.setLabelLocation(XEnum.ArcLabelLocation.OUTSIDE);
+ 			mChart.setLabelPosition(XEnum.SliceLabelPosition.OUTSIDE);
  			
  			break;
  		case 1:	//3D饼图
  			mChart = new PieChart3D();
- 			mChart.setLabelLocation(XEnum.ArcLabelLocation.CENTER);
+ 			mChart.setLabelPosition(XEnum.SliceLabelPosition.INNER);
  			mChart.getLabelPaint().setColor(Color.WHITE); 
  			
  			break;
@@ -59,23 +59,27 @@ public class SpinnerPieChart01View extends GraphicalView {
 			
  			((RoseChart) mChart).getInnerPaint().setColor((int)Color.rgb(153, 204, 0));
  			mChart.getLabelPaint().setColor(Color.WHITE);
- 			mChart.setLabelLocation(XEnum.ArcLabelLocation.CENTER);
+ 			mChart.setLabelPosition(XEnum.SliceLabelPosition.INNER);
  			break;		
  		}
  		
  	}
      
+     @Override  
+     protected void onSizeChanged(int w, int h, int oldw, int oldh) {  
+         super.onSizeChanged(w, h, oldw, oldh);  
+        //图所占范围大小
+         mChart.setChartRange(w,h);
+     }  		
+     
      private void chartRender()
  	{
  		try {					
  			initChart(mChartStyle);
- 			//图所占范围大小 		
- 			mChart.setChartRange( 0.0f,mMoveHeight,
- 									getScreenWidth(),
- 									getScreenHeight() - mMoveHeight);
- 			
- 			//图的内边距
- 			mChart.setPadding(5, 35, 15, 20);
+ 		
+ 			//设置绘图区默认缩进px值
+			int [] ltrb = getPieDefaultSpadding();
+			mChart.setPadding(ltrb[0], ltrb[1], ltrb[2], ltrb[3]);	
  			
  			//设定数据源
  			mChart.setDataSource(chartData);			
@@ -83,7 +87,7 @@ public class SpinnerPieChart01View extends GraphicalView {
  			//设置起始偏移角度(即第一个扇区从哪个角度开始绘制)
  			mChart.setInitialAngle(90);	
  			//显示Key值
- 			mChart.getPlotKey().showKeyLabels();
+ 			mChart.getPlotLegend().hideLegend();
  			
  		} catch (Exception e) {
  			// TODO Auto-generated catch block
@@ -105,6 +109,12 @@ public class SpinnerPieChart01View extends GraphicalView {
 	@Override
     public void render(Canvas canvas) {
         try{
+        	
+        	//mChart.setChartRange(this.getMeasuredWidth(), this.getMeasuredHeight());
+        	
+        	//mChart.setChartRange(0.0f, mOffsetHeight, this.getWidth(),this.getHeight() - mOffsetHeight);
+    		
+        	
         	mChart.render(canvas);
         } catch (Exception e){
         	Log.e(TAG, e.toString());

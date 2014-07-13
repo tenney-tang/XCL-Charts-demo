@@ -38,6 +38,7 @@ import org.xclcharts.renderer.plot.PlotGrid;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.util.AttributeSet;
 import android.util.Log;
 
 
@@ -57,18 +58,45 @@ public class SplineChart02View extends TouchView {
 	public SplineChart02View(Context context) {
 		super(context);
 		// TODO Auto-generated constructor stub
-		chartLabels();
-		chartDataSet();	
-		chartRender();
+		initView();
 	}
+	
+
+	public SplineChart02View(Context context, AttributeSet attrs){   
+        super(context, attrs);   
+        initView();
+	 }
+	 
+	 public SplineChart02View(Context context, AttributeSet attrs, int defStyle) {
+			super(context, attrs, defStyle);
+			initView();
+	 }
+	 
+	 private void initView()
+	 {
+		 chartLabels();
+			chartDataSet();	
+			chartRender();
+	 }
+	 
+	
+	@Override  
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {  
+        super.onSizeChanged(w, h, oldw, oldh);  
+       //图所占范围大小
+        chart.setChartRange(w,h);
+    }  				
 	
 	private void chartRender()
 	{
 		try {
 						
-			//图所占范围大小
-			chart.setChartRange(0.0f, 0.0f,getScreenWidth(),getScreenHeight());		
-			chart.setPadding(15, 20, 13, 5);
+			//设置绘图区默认缩进px值,留置空间显示Axis,Axistitle....		
+			int [] ltrb = getBarLnDefaultSpadding();
+			chart.setPadding(ltrb[0], ltrb[1], ltrb[2], ltrb[3]);	
+			
+			//显示边框
+			chart.showRoundBorder();
 			
 			//数据源	
 			chart.setCategories(labels);
@@ -79,7 +107,7 @@ public class SplineChart02View extends TouchView {
 			chart.getDataAxis().setAxisMax(1);
 			chart.getDataAxis().setAxisMin(-1);
 			//数据轴刻度间隔
-			chart.getDataAxis().setAxisSteps(0.5);
+			chart.getDataAxis().setAxisSteps(0.5f);
 			
 			//标签轴最大值
 			chart.setCategoryAxisMax(360);	

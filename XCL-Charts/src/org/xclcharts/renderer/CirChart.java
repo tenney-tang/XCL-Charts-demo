@@ -24,12 +24,13 @@ package org.xclcharts.renderer;
 
 import android.graphics.Canvas;
 import org.xclcharts.common.MathHelper;
-import org.xclcharts.renderer.plot.PlotKey;
-import org.xclcharts.renderer.plot.PlotKeyRender;
+import org.xclcharts.renderer.plot.PlotLegend;
+import org.xclcharts.renderer.plot.PlotLegendRender;
 
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Align;
+import android.util.Log;
 
 /**
  * @ClassName CirChart
@@ -40,20 +41,27 @@ import android.graphics.Paint.Align;
 
 public class CirChart extends XChart{
 	
+	private static final String TAG = "CirChart";
+	
 	//半径
 	private float mRadius=0.0f;		
 	
 	//标签注释显示位置 [隐藏,Default,Center,Ouside,Line]
-	private XEnum.ArcLabelLocation mLabelLocation;
+	private XEnum.SliceLabelPosition mLabelPosition;
 	
 	//开放标签画笔让用户设置
 	private Paint mPaintLabel = null;
+	//当标签为Line类型时使用
+	private Paint mPaintLabelLine = null;
 	
 	//初始偏移角度
-	protected int mOffsetAgent = 0;//180;
+	protected float mOffsetAgent = 0.0f;//180;
 	
 	//图的Key基类
-	protected PlotKeyRender plotKey = null;
+	protected PlotLegendRender PlotLegend = null;
+	
+	//标签与点的转折线长度
+	private int mLabelBrokenLineLength = 10;
 	
 		
 	public CirChart()
@@ -64,38 +72,40 @@ public class CirChart extends XChart{
 	private void initChart()
 	{
 		//标签显示位置
-		mLabelLocation = XEnum.ArcLabelLocation.CENTER;
-		
+		mLabelPosition = XEnum.SliceLabelPosition.INNER;
+				
 		//key值
-		plotKey = new PlotKeyRender(this);
+		PlotLegend = new PlotLegendRender(this);
 		
 		mPaintLabel = new Paint();
 		mPaintLabel.setColor(Color.BLACK);
 		mPaintLabel.setTextSize(18);
 		mPaintLabel.setAntiAlias(true);
+		mPaintLabel.setTextAlign(Align.CENTER);	
+		
+		mPaintLabelLine = new Paint();
+		mPaintLabelLine.setColor(Color.BLACK);
+		mPaintLabelLine.setAntiAlias(true);
+		mPaintLabelLine.setStrokeWidth(2);
 	}
 	
 	
 	@Override
 	protected void calcPlotRange()
 	{
-		super.calcPlotRange();
+		super.calcPlotRange();		
 		
-		if(isVerticalScreen())
-		{
-			this.mRadius = this.plotArea.getWidth() / 2;
-		}else{
-			this.mRadius =  this.plotArea.getHeight() / 2;
-		}
+		this.mRadius = Math.min( div(this.plotArea.getWidth() ,2f) , 
+				 				 div(this.plotArea.getHeight(),2f) );	
 	}
 	
 	/**
-	 * 开放图的key基类
+	 * 开放图例基类
 	 * @return	基类
 	 */
-	public PlotKey getPlotKey()
+	public PlotLegend getPlotLegend()
 	{
-		return plotKey;
+		return PlotLegend;
 	}	
 
 	
@@ -103,10 +113,10 @@ public class CirChart extends XChart{
 	 * 设置饼图(pie chart)的半径
 	 * @param radius 饼图的半径
 	 */
-	public void setRadius(final float radius)
-	{
-		mRadius = radius;
-	}
+	//public void setRadius(final float radius)
+	//{
+	//	mRadius = radius;
+	//}
 	
 	/**
 	 * 返回半径
@@ -130,18 +140,32 @@ public class CirChart extends XChart{
 	 * 返回图的起始偏移角度
 	 * @return 偏移角度
 	 */
-	public int getInitialAngle()
+	public float getInitialAngle()
 	{
 		return mOffsetAgent;
 	}
 
 	/**
 	 * 设置标签显示在扇区的哪个位置(里面，外面，隐藏)
-	 * @param location 显示位置
+	 * @param position 显示位置
 	 */
-	public void setLabelLocation(XEnum.ArcLabelLocation location)
+	public void setLabelPosition(XEnum.SliceLabelPosition position)
 	{
-		mLabelLocation = location;
+		mLabelPosition = position;
+		//INNER,OUTSIDE,HIDE
+		switch(position)
+		{
+		case INNER :
+			mPaintLabel.setTextAlign(Align.CENTER);
+			break;
+		case OUTSIDE :
+			break;
+		case HIDE :
+			break;
+		case LINE :
+			break;
+		default:			
+		}				
 	}
 	
 	/**
@@ -152,6 +176,16 @@ public class CirChart extends XChart{
 	{
 		return mPaintLabel;
 	}
+	
+	/**
+	 * 开放标签线画笔(当标签为Line类型时有效)
+	 * @return 画笔
+	 */
+	public Paint getLabelLinePaint()
+	{
+		return mPaintLabelLine;
+	}
+	
 	
 	/**
 	 * 绘制标签
@@ -166,55 +200,104 @@ public class CirChart extends XChart{
 			final float cirX,
 			final float cirY,
 			final float radius,		
-			final float offsetAgent,
-			final float curretAgentt)
+			final double offsetAgent,
+			final double curretAgentt)
 	{
-		if(XEnum.ArcLabelLocation.HIDE == mLabelLocation) return;
+		if(XEnum.SliceLabelPosition.HIDE == mLabelPosition) return;		
+		if(""==text||text.length()==0)return;
 		
 		float calcRadius = 0.0f;
 		float calcAgent = 0.0f;
-		
-		mPaintLabel.setTextAlign(Align.CENTER);
-		
-		if(XEnum.ArcLabelLocation.CENTER == mLabelLocation)
+				
+		calcAgent =  (float) MathHelper.getInstance().add(offsetAgent , curretAgentt/2);
+		if(Float.compare(calcAgent,0.0f) == 0 
+				|| Float.compare(calcAgent,0.0f) == -1 )
+		{
+			Log.e(TAG,"计算出来的圆心角等于0.");
+			return ;
+		}
+				
+		if(XEnum.SliceLabelPosition.INNER == mLabelPosition)
 		{			 
 				//显示在扇形的中心
-				calcRadius = radius - radius/2;
-				calcAgent = offsetAgent + curretAgentt/2;
+				calcRadius = MathHelper.getInstance().sub(radius , radius/2f);
+				
 				//计算百分比标签
-				MathHelper.getInstance().calcArcEndPointXY(cirX, cirY, calcRadius, calcAgent); 	
-					 
+				MathHelper.getInstance().calcArcEndPointXY(cirX, cirY, calcRadius, calcAgent); 						 
 				//标识
 				canvas.drawText( text ,
 						MathHelper.getInstance().getPosX(), MathHelper.getInstance().getPosY() ,mPaintLabel);
-		}else if(XEnum.ArcLabelLocation.OUTSIDE == mLabelLocation){
+		}else if(XEnum.SliceLabelPosition.OUTSIDE == mLabelPosition){
 				//显示在扇形的外部
-				calcRadius = radius  + radius/10;
-				calcAgent = offsetAgent + curretAgentt/2;
+				calcRadius = MathHelper.getInstance().add(radius  , radius/10f);
 				//计算百分比标签
 				MathHelper.getInstance().calcArcEndPointXY(cirX, cirY, calcRadius, calcAgent); 	
 					 
 				//标识
 				canvas.drawText(text,
 						MathHelper.getInstance().getPosX(), MathHelper.getInstance().getPosY() ,mPaintLabel);          	
+		
+		}else if(XEnum.SliceLabelPosition.LINE == mLabelPosition){						
+			//显示在扇形的外部
+			//1/4处为起始点
+			calcRadius = MathHelper.getInstance().sub(radius  , radius / 4f);
+			MathHelper.getInstance().calcArcEndPointXY(cirX, cirY, calcRadius, calcAgent);			
+			float startX = MathHelper.getInstance().getPosX();
+		    float startY = MathHelper.getInstance().getPosY();
+		    
+		    //延长原来半径的一半在外面
+		    calcRadius =  radius / 2f;		
+			MathHelper.getInstance().calcArcEndPointXY(startX, startY, calcRadius, calcAgent);
+			
+			float stopX = MathHelper.getInstance().getPosX();
+		    float stopY = MathHelper.getInstance().getPosY();
+		    //连接线
+		    canvas.drawLine(startX, startY, stopX, stopY, mPaintLabelLine);		    		    
+		    		    
+		    float endX = 0.0f;				    		    		    
+		    if(stopX == cirX){ //位于中间竖线上		    			    			    	
+		    	if( stopY > cirY ) //中点上方,左折线
+		    	{
+		    		mPaintLabel.setTextAlign(Align.LEFT);
+		    		endX = stopX + mLabelBrokenLineLength;	
+		    	}else{ //中点下方,右折线
+		    		
+		    		endX = stopX - mLabelBrokenLineLength;	
+		    		mPaintLabel.setTextAlign(Align.RIGHT);
+		    	}
+		    }else if(stopY == cirY){ //中线横向两端
+		    	
+		    	if(stopX <= cirX) //左边
+		    	{
+		    		mPaintLabel.setTextAlign(Align.RIGHT);
+		    	}else{
+		    		mPaintLabel.setTextAlign(Align.LEFT);
+		    	}		    	
+		    	endX = stopX;		    
+		    }else if(stopX + mLabelBrokenLineLength > cirX) //右边
+		    {
+		    	mPaintLabel.setTextAlign(Align.LEFT);
+		    	endX = stopX + mLabelBrokenLineLength;		    		    	
+		    }else if(stopX - mLabelBrokenLineLength < cirX) //左边
+		    {
+		    	mPaintLabel.setTextAlign(Align.RIGHT);
+		    	endX = stopX - mLabelBrokenLineLength;		    			    	    
+		    }else {
+		    	endX = stopX;
+		    	mPaintLabel.setTextAlign(Align.CENTER);
+		    }		    
+		 
+		    //转折线
+		    canvas.drawLine(stopX, stopY, endX, stopY, mPaintLabelLine);
+		    //标签
+		    canvas.drawText(text,endX, stopY,mPaintLabel);          	
+				
 		}else{
+			Log.e(TAG,"未知的标签处理类型.");
 			return;
 		}		 
 	}
-	
-	
-	protected void renderPlot()
-	{
-		try {
-			
-			
-		}catch( Exception e){
-			// throw e;
 		
-		}
-	}
-
-	
 	@Override
 	protected boolean postRender(Canvas canvas) throws Exception 
 	{	

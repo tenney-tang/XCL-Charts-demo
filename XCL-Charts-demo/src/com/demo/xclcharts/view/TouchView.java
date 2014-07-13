@@ -31,8 +31,15 @@ import org.xclcharts.renderer.XChart;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
+
+/**
+ * @ClassName TouchView
+ * @Description 可继承这个类用来放大缩小及手势移动图表
+ * @author XiongChuanLiang<br/>(xcl_168@aliyun.com) QQ群: 374780627
+ */
 
 public abstract class TouchView  extends GraphicalView implements IChartZoom {
 	
@@ -51,6 +58,17 @@ public abstract class TouchView  extends GraphicalView implements IChartZoom {
 		// TODO Auto-generated constructor stub
 		
 	}	
+	
+	 public TouchView(Context context, AttributeSet attrs){   
+	        super(context, attrs);   
+	        
+	 }
+	 
+	 public TouchView(Context context, AttributeSet attrs, int defStyle) {
+			super(context, attrs, defStyle);
+		
+	 }
+	 
 	
 	public abstract List<XChart> bindChart();		
 	
@@ -150,15 +168,12 @@ public abstract class TouchView  extends GraphicalView implements IChartZoom {
 		
 		if(null == mChartTouch)
 				if(!initArrayTouch())return false;
-
-		//多轴混合图手工移动会错位，搞不懂
+		
 		for(int i=0;i<mChartTouch.length;i++)
 		{
 			mChartTouch[i].handleTouch(event);		
 		} 	
 		
-		//附注，如果你只想手势只有在图范围内才做处理时，
-		//可以依当前坐标与图的left,top之类比较来做限制。
 		
 		return true;
 	}

@@ -34,7 +34,9 @@ import org.xclcharts.renderer.XEnum;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.util.AttributeSet;
 import android.util.Log;
+import android.view.MotionEvent;
 
 /**
  * @ClassName DountChart01View
@@ -51,17 +53,39 @@ public class DountChart01View extends TouchView {
 	public DountChart01View(Context context) {
 		super(context);
 		// TODO Auto-generated constructor stub
-		chartDataSet();	
-		chartRender();
+		initView();
 	}
+	
+	public DountChart01View(Context context, AttributeSet attrs){   
+        super(context, attrs);   
+        initView();
+	 }
+	 
+	 public DountChart01View(Context context, AttributeSet attrs, int defStyle) {
+			super(context, attrs, defStyle);
+			initView();
+	 }
+	 
+	 private void initView()
+	 {
+		 	chartDataSet();	
+			chartRender();
+	 }
+	 
+	
+	@Override  
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {  
+        super.onSizeChanged(w, h, oldw, oldh);  
+       //图所占范围大小
+        chart.setChartRange(w,h);
+    }  				
 	
 	private void chartRender()
 	{
-		try {
-			
-			//图所占范围大小
-			chart.setChartRange(0.0f, 0.0f,getScreenWidth(),getScreenHeight());			
-			chart.setPadding(20, 30, 15, 15);
+		try {			
+			//设置绘图区默认缩进px值
+			int [] ltrb = getPieDefaultSpadding();
+			chart.setPadding(ltrb[0], ltrb[1], ltrb[2], ltrb[3]);
 							
 			//设置起始偏移角度
 			chart.setInitialAngle(90);	
@@ -70,13 +94,16 @@ public class DountChart01View extends TouchView {
 			chart.setDataSource(lPieData);
 						
 			//标签显示(隐藏，显示在中间，显示在扇区外面)
-			chart.setLabelLocation(XEnum.ArcLabelLocation.OUTSIDE);
+			chart.setLabelPosition(XEnum.SliceLabelPosition.OUTSIDE);
 			
 			//标题
 			chart.setTitle("Dount Chart");
 			chart.addSubtitle("(XCL-Charts Demo)");
 			//显示key
-			chart.getPlotKey().showKeyLabels();
+			chart.getPlotLegend().showLegend();
+			//显示边框
+			chart.showRoundBorder();
+			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			Log.e(TAG, e.toString());
@@ -107,6 +134,13 @@ public class DountChart01View extends TouchView {
 		List<XChart> lst = new ArrayList<XChart>();
 		lst.add(chart);		
 		return lst;
+	}
+	
+	//重载掉，让其不能移动,实际应用时，可直接继承GraphicalView即可.
+	//此处是例子的权宜之计
+	@Override
+	public boolean onTouchEvent(MotionEvent event) {
+		return false;
 	}
 
 }

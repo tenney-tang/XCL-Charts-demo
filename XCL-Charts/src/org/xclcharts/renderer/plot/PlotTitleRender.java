@@ -34,6 +34,9 @@ import android.graphics.Paint.Align;
  */
 
 public class PlotTitleRender extends PlotTitle{
+	
+	
+	//protected static final int mBorderSpadding = 5;
 
 	public PlotTitleRender()
 	{
@@ -48,9 +51,9 @@ public class PlotTitleRender extends PlotTitle{
 							float chartTop,
 							float chartWidth,
 							float plotTop,
-							 Canvas canvas)
+							Canvas canvas)
 	{
-		
+		//排除掉border width
 	
 		int titleHeight = 0;
 		int subtitleHeight = 0;
@@ -80,8 +83,7 @@ public class PlotTitleRender extends PlotTitle{
 		//用来确定 titleY,需要Chart top的值
 		switch(this.getTitlePosition())
 		{
-		case UP:
-			
+		case UP:			
 			titleInitY = chartTop + titleHeight;
 			break;
 		case CENTER:			

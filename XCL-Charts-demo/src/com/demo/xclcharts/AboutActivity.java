@@ -46,7 +46,7 @@ public class AboutActivity extends Activity {
 		requestWindowFeature(Window.FEATURE_NO_TITLE); // 设置没标题
 		setContentView(R.layout.activity_about);
 
-		GradientDrawable grad = new GradientDrawable(// 渐变色 
+		GradientDrawable grad = new GradientDrawable(// 渐变色 WHITE
 				Orientation.TOP_BOTTOM, new int[] {
 						(int) Color.rgb(133, 224, 224),
 						(int) Color.rgb(51, 136, 103) });
@@ -54,13 +54,14 @@ public class AboutActivity extends Activity {
 	
 		TextView tv_title = (TextView) findViewById(R.id.tv_title);
 		String html = "<big><font color ='red'>XCL-Charts</font></big><br/>"			
-				+ "&nbsp;&nbsp;&nbsp;&nbsp;当前版本: 1.0<br/>"
-				+ "&nbsp;&nbsp;&nbsp;&nbsp;最后更新: 2014-7-1<br/>"			
-				+ "<br/><big><font color ='red'>License</font></big><br/>"
+				+ "&nbsp;&nbsp;&nbsp;&nbsp;版本: 1.2<br/>"
+				+ "&nbsp;&nbsp;&nbsp;&nbsp;最后更新: 2014-7-13<br/>"
+				+ "&nbsp;&nbsp;&nbsp;&nbsp;QQ交流群: 374780627<br/>"
+					+ "<big><font color ='red'>License</font></big><br/>"
 				+ "&nbsp;&nbsp;&nbsp;&nbsp;Apache v2 License开源协议。"
-				+ "<br/><br/><big><font color ='red'>代码托管地址</font></big><br/>"
-				+ "GitHub:<br/>https://github.com/xcltapestry/XCL-Charts" 
-				+ "<br/>OSChina:<br/>https://git.oschina.net/xclcharts/XCL-Charts";
+				+ "<br/><big><font color ='red'>代码托管地址</font></big><br/>"
+				+ "GitHub:https://github.com/xcltapestry/XCL-Charts" 
+				+ "<br/>OSChina:https://git.oschina.net/xclcharts/XCL-Charts";
 		CharSequence charSequence = Html.fromHtml(html);
 		tv_title.setText(charSequence);
 		tv_title.setMovementMethod(LinkMovementMethod.getInstance());
@@ -70,13 +71,12 @@ public class AboutActivity extends Activity {
 				+ " <br/><big>About the Author</big>"
 				+ " <br/><b>熊传亮</b>"
 				+ "   <br/>&nbsp;&nbsp;&nbsp;&nbsp;有Oracle 10g OCP 及IBM Certified Systems Expert认证，" +
-				"目前在深圳一家小公司是一名挂着DBA职位，写着C/C++的DBA。"
+				"目前在深圳一家小公司是一名挂着DBA职位，写着C/C++的DBA。 求工作，求介绍。"
 				+ " <b>^_^</b>"		
 				+ " <br/><br/>有什么改进或建议可发邮件联系或至博客留言。 "
 				+ " <br/><big>Blog:http://blog.csdn.net/xcl168</big> "
 				+ " <br/><big>Mail:xcl_168@aliyun.com</big> "
-				+ " <br/><big>QQ交流群: 374780627</big> "
-				+ " <br/><br/>感谢 cubehead的大力修正及其它网友的支持与反馈。"
+				+ " <br/><br/>感谢 cubehead的代码提交与修正及其它网友的支持与热情反馈。"
 				
 				+ "</body></html>";
 		CharSequence charSequenceInfo = Html.fromHtml(htmlInfo);

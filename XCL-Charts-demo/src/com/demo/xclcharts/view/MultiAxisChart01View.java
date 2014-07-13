@@ -86,27 +86,31 @@ public class MultiAxisChart01View extends TouchView {
 		}
 		
 		
+		@Override  
+	    protected void onSizeChanged(int w, int h, int oldw, int oldh) {  
+	        super.onSizeChanged(w, h, oldw, oldh);  
+	       //图所占范围大小
+	        chart.setChartRange(w,h);
+	        
+	        lnChart.setChartRange(w,h);
+	    }  
+		
+		
 		private void chartRender()
 		{
 			try {
-				//柱形图所占范围大小
-				chart.setChartRange(0.0f, 0.0f, getScreenWidth(),getScreenHeight());
-				chart.setChartDirection(XEnum.Direction.VERTICAL);	
+				//设置绘图区默认缩进px值,留置空间显示Axis,Axistitle....		
+				int [] ltrb = getBarLnDefaultSpadding();
+				chart.setPadding(ltrb[0], ltrb[1], ltrb[2], ltrb[3]);	
 				
-				if(chart.isVerticalScreen())
-				{
-					chart.setPadding(20, 10, 10, 10);
-				}else{
-					chart.setPadding(20, 30, 18, 10);
-				}
-				
+				chart.setChartDirection(XEnum.Direction.VERTICAL);
 				//标题
 				chart.setTitle("Virtual vs Native Oracle RAC Performance");
 				chart.addSubtitle("(XCL-Charts Demo)");				
 				chart.getPlotTitle().getTitlePaint().setTextSize(20);
 				//图例
-				chart.getLegend().setLeftLegend("Orders Per Minute (OPM)");
-				chart.getLegend().setRightLegend("Average Response Time (RT)");			
+				chart.getAxisTitle().setLeftAxisTitle("Orders Per Minute (OPM)");
+				chart.getAxisTitle().setRightAxisTitle("Average Response Time (RT)");			
 				
 				//轴
 				renderBarAxis();
@@ -118,7 +122,7 @@ public class MultiAxisChart01View extends TouchView {
 				chart.getPlotGrid().showEvenRowBgColor();
 				chart.getPlotGrid().showOddRowBgColor();			
 				//隐蔽Key值说明			
-				chart.getPlotKey().hideKeyLabels();
+				chart.getPlotLegend().hideLegend();
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				Log.e(TAG, e.toString());
@@ -197,8 +201,8 @@ public class MultiAxisChart01View extends TouchView {
 			//定制标签轴标签的标签格式
 			CategoryAxis categoryAxis = chart.getCategoryAxis();
 			categoryAxis.setTickLabelRotateAgent(-15f);	
-			categoryAxis.getAxisTickLabelPaint().setTextSize(15);
-			categoryAxis.getAxisTickLabelPaint().setTextAlign(Align.CENTER);
+			categoryAxis.getTickLabelPaint().setTextSize(15);
+			categoryAxis.getTickLabelPaint().setTextAlign(Align.CENTER);
 			categoryAxis.setLabelFormatter(new IFormatterTextCallBack(){
 	
 				@Override
@@ -229,8 +233,8 @@ public class MultiAxisChart01View extends TouchView {
 			dataAxis.setAxisMin(0);
 			dataAxis.setAxisSteps(5);			
 			dataAxis.getTickMarksPaint().setColor((int)Color.rgb(51, 204, 204));
-			dataAxis.getAxisTickLabelPaint().setTextAlign(Align.LEFT);
-			dataAxis.getAxisTickLabelPaint().setColor((int)Color.rgb(51, 204, 204));
+			dataAxis.getTickLabelPaint().setTextAlign(Align.LEFT);
+			dataAxis.getTickLabelPaint().setColor((int)Color.rgb(51, 204, 204));
 		
 			//把折线图默认的顶上的轴线隐藏
 			lnChart.setTopAxisVisible(false);
@@ -303,19 +307,13 @@ public class MultiAxisChart01View extends TouchView {
 		private void chartLnRender()
 		{
 			try {
+				//设置绘图区默认缩进px值,留置空间显示Axis,Axistitle....		
+				int [] ltrb = getBarLnDefaultSpadding();
+				lnChart.setPadding(ltrb[0], ltrb[1], ltrb[2], ltrb[3]);	
 				
-				//柱形图所占范围大小
-				lnChart.setChartRange(0.0f, 0.0f, getScreenWidth(),getScreenHeight());
-							
-				if(lnChart.isVerticalScreen())
-				{
-					lnChart.setPadding(20, 10, 10, 10);
-				}else{
-					lnChart.setPadding(20, 30, 18, 10);
-				}							
 				renderLnAxis();
 				
-				lnChart.getPlotKey().showKeyLabels();
+				lnChart.getPlotLegend().showLegend();
 				
 			} catch (Exception e) {
 				// TODO Auto-generated catch block

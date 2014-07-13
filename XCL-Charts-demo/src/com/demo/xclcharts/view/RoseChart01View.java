@@ -34,6 +34,7 @@ import org.xclcharts.renderer.XEnum;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.util.AttributeSet;
 import android.util.Log;
 
 /**
@@ -49,20 +50,44 @@ public class RoseChart01View extends TouchView {
 	LinkedList<PieData> roseData = new LinkedList<PieData>();	
 	
 	public RoseChart01View(Context context) {
-		super(context);
-		// TODO Auto-generated constructor stub
-		chartDataSet();
-		chartRender();
+			super(context);
+			// TODO Auto-generated constructor stub
+			initView();
 	}
+	
+	public RoseChart01View(Context context, AttributeSet attrs){   
+        	super(context, attrs);   
+        	initView();
+	 }
+	 
+	 public RoseChart01View(Context context, AttributeSet attrs, int defStyle) {
+			super(context, attrs, defStyle);
+			initView();
+	 }
+	 
+	 private void initView()
+	 {
+		 	chartDataSet();
+			chartRender();
+	 }
+	 
+	 
+	@Override  
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {  
+        super.onSizeChanged(w, h, oldw, oldh);  
+       //图所占范围大小
+        chart.setChartRange(w,h);
+    }  	
 	
 	private void chartRender()
 	{
 		try {						
 			
-			//柱形图所占范围大小
-			chart.setChartRange(0.0f, 0.0f,getScreenWidth(),getScreenHeight());
+			//设置绘图区默认缩进px值
+			int [] ltrb = getPieDefaultSpadding();
+			chart.setPadding(ltrb[0], ltrb[1], ltrb[2], ltrb[3]);	
 			
-			chart.setPadding(20, 20, 15, 15);
+			//背景 
 			chart.setApplyBackgroundColor(true);
 			chart.setBackgroundColor(Color.BLACK);
 			
@@ -76,7 +101,7 @@ public class RoseChart01View extends TouchView {
 			chart.getPlotTitle().getSubtitlePaint().setColor(Color.WHITE);
 			
 			//设置标签显示位置,当前设置标签显示在扇区中间
-			chart.setLabelLocation(XEnum.ArcLabelLocation.OUTSIDE);
+			chart.setLabelPosition(XEnum.SliceLabelPosition.OUTSIDE);
 			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

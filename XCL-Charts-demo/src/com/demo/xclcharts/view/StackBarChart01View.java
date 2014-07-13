@@ -39,6 +39,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Align;
+import android.util.AttributeSet;
 import android.util.Log;
 /**
  * @ClassName StackBarChart01View
@@ -56,24 +57,48 @@ public class StackBarChart01View extends TouchView {
 	public StackBarChart01View(Context context) {
 		super(context);
 		// TODO Auto-generated constructor stub
-		chartLabels();
-		chartDataSet();	
-		chartRender();
+		initView();
 	}
+	
+	public StackBarChart01View(Context context, AttributeSet attrs){   
+        super(context, attrs);   
+        initView();
+	 }
+	 
+	 public StackBarChart01View(Context context, AttributeSet attrs, int defStyle) {
+			super(context, attrs, defStyle);
+			initView();
+	 }
+	 
+	 private void initView()
+	 {
+		 chartLabels();
+		 chartDataSet();	
+		 chartRender();
+	 }
+	 
+	
+	@Override  
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {  
+        super.onSizeChanged(w, h, oldw, oldh);  
+       //图所占范围大小
+        chart.setChartRange(w,h);
+    }  				
+	
 	
 	private void chartRender()
 	{
 		try {
 			
-			//柱形图所占范围大小
-			chart.setChartRange(0.0f, 0.0f,getScreenWidth(),getScreenHeight());
+			//设置绘图区默认缩进px值,留置空间显示Axis,Axistitle....		
+			int [] ltrb = getBarLnDefaultSpadding();
+			chart.setPadding(ltrb[0], ltrb[1], ltrb[2], ltrb[3]);	
+			
+			//显示边框
+			chart.showRoundBorder();
+			
+			
 			chart.setChartDirection(XEnum.Direction.VERTICAL);
-			if(chart.isVerticalScreen())
-			{
-				chart.setPadding(15, 20, 10, 5);
-			}else{
-				chart.setPadding(25, 30, 18, 5);
-			}
 			//数据源		
 			chart.setCategories(chartLabels);	
 			chart.setDataSource(BarDataSet);
@@ -84,7 +109,7 @@ public class StackBarChart01View extends TouchView {
 			chart.getDataAxis().setAxisSteps(64);
 			//指定数据轴标签旋转-45度显示
 			chart.getCategoryAxis().setTickLabelRotateAgent(-45f);	
-			Paint labelPaint = chart.getCategoryAxis().getAxisTickLabelPaint();			
+			Paint labelPaint = chart.getCategoryAxis().getTickLabelPaint();			
 			labelPaint.setTextAlign(Align.RIGHT);
 			labelPaint.setColor((int)Color.rgb(0, 75, 106));
 			
@@ -94,8 +119,8 @@ public class StackBarChart01View extends TouchView {
 			chart.setTitleAlign(XEnum.ChartTitleAlign.CENTER);
 			chart.setTitlePosition(XEnum.Position.CENTER);
 			
-			//图例
-			chart.getLegend().setLeftLegend("单位(TB)");
+			//轴标题
+			chart.getAxisTitle().setLeftAxisTitle("单位(TB)");
 			//chart.getLegend().setLowerLegend("文件服务器");
 			//chart.getLegend().setRightLegend("右边图例");
 			
@@ -173,6 +198,8 @@ public class StackBarChart01View extends TouchView {
 	@Override
     public void render(Canvas canvas) {
         try{
+        	
+        	//chart.setChartRange(this.getMeasuredWidth(), this.getMeasuredHeight());
             chart.render(canvas);
         } catch (Exception e){
         	Log.e(TAG, e.toString());

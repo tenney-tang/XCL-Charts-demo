@@ -29,6 +29,7 @@ import java.util.List;
 
 import org.xclcharts.chart.BarData;
 import org.xclcharts.chart.StackBarChart;
+import org.xclcharts.common.DensityUtil;
 import org.xclcharts.common.IFormatterDoubleCallBack;
 import org.xclcharts.common.IFormatterTextCallBack;
 import org.xclcharts.renderer.XChart;
@@ -37,6 +38,7 @@ import org.xclcharts.renderer.XEnum;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.util.AttributeSet;
 import android.util.Log;
 /**
  * @ClassName StackBarChart02View
@@ -55,26 +57,48 @@ public class StackBarChart02View extends TouchView {
 	public StackBarChart02View(Context context) {
 		super(context);
 		// TODO Auto-generated constructor stub
-		chartLabels();
-		chartDataSet();
-		chartRender();
+		initView();
 	}
+	
+	public StackBarChart02View(Context context, AttributeSet attrs){   
+        super(context, attrs);   
+        initView();
+	 }
+	 
+	 public StackBarChart02View(Context context, AttributeSet attrs, int defStyle) {
+			super(context, attrs, defStyle);
+			initView();
+	 }
+	 
+	 private void initView()
+	 {
+		 chartLabels();
+		 chartDataSet();	
+		 chartRender();
+	 }
+	 
+	
+	@Override  
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {  
+        super.onSizeChanged(w, h, oldw, oldh);  
+       //图所占范围大小
+        chart.setChartRange(w,h);
+    }  				
+	
 	
 	private void chartRender()
 	{
 		try {		
 			
-			//柱形图所占范围大小
-			chart.setChartRange(0.0f, 0.0f,getScreenWidth(),getScreenHeight());
+			//设置绘图区默认缩进px值,留置空间显示Axis,Axistitle....		
+			int [] ltrb = getBarLnDefaultSpadding();
+			chart.setPadding(ltrb[0], ltrb[1], DensityUtil.dip2px(getContext(), 50), ltrb[3]);	
+			
+			//显示边框
+			chart.showRoundBorder();
+			
 			//指定显示为横向柱形
 			chart.setChartDirection(XEnum.Direction.HORIZONTAL);
-			if(chart.isVerticalScreen())
-			{
-				chart.setPadding(15, 20, 10, 5);
-			}else{
-				chart.setPadding(25, 20, 18, 5);
-			}
-			
 			//数据源		
 			chart.setCategories(chartLabels);	
 			chart.setDataSource(BarDataSet);
@@ -92,7 +116,7 @@ public class StackBarChart02View extends TouchView {
 			chart.setTitleAlign(XEnum.ChartTitleAlign.CENTER);
 			
 			//图例
-			chart.getLegend().setLowerLegend("单位为(W)");
+			chart.getAxisTitle().setLowerAxisTitle("单位为(W)");
 			
 			//背景网格
 			chart.getPlotGrid().showVerticalLines();
@@ -117,7 +141,7 @@ public class StackBarChart02View extends TouchView {
 			});
 			
 			//定义标签轴标签显示颜色
-			chart.getCategoryAxis().getAxisTickLabelPaint().
+			chart.getCategoryAxis().getTickLabelPaint().
 				setColor((int)Color.rgb(1, 188, 242));
 					
 			//定义柱形上标签显示格式
@@ -163,6 +187,9 @@ public class StackBarChart02View extends TouchView {
 	@Override
     public void render(Canvas canvas) {
         try{
+        	//chart.setChartRange(this.getMeasuredWidth(), this.getMeasuredHeight());
+        	
+        	//chart.setChartRange(this.getWidth(), this.getHeight());
             chart.render(canvas);
         } catch (Exception e){
         	Log.e(TAG, e.toString());

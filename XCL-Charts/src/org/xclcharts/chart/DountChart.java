@@ -58,7 +58,7 @@ public class DountChart  extends PieChart{
 		mPaintFill.setColor(fillColor); 
 		mPaintFill.setAntiAlias(true);
 		
-		this.setLabelLocation(XEnum.ArcLabelLocation.OUTSIDE);
+		this.setLabelPosition(XEnum.SliceLabelPosition.OUTSIDE);
 	}
 	
 	/**

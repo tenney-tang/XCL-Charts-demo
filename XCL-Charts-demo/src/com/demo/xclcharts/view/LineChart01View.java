@@ -35,6 +35,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint.Align;
+import android.util.AttributeSet;
 import android.util.Log;
 
 /**
@@ -54,20 +55,44 @@ public class LineChart01View extends TouchView {
 	public LineChart01View(Context context) {
 		super(context);
 		// TODO Auto-generated constructor stub
-		chartLabels();
-		chartDataSet();	
-		chartRender();
+		initView();
 	}
+	
+	public LineChart01View(Context context, AttributeSet attrs){   
+        super(context, attrs);   
+        initView();
+	 }
+	 
+	 public LineChart01View(Context context, AttributeSet attrs, int defStyle) {
+			super(context, attrs, defStyle);
+			initView();
+	 }
+	 
+	 private void initView()
+	 {
+		 chartLabels();
+			chartDataSet();	
+			chartRender();
+	 }
+	 
 
+	@Override  
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {  
+        super.onSizeChanged(w, h, oldw, oldh);  
+       //图所占范围大小
+        chart.setChartRange(w,h);
+    }  
+	
 	private void chartRender()
 	{
 		try {				
 			
+			//设置绘图区默认缩进px值,留置空间显示Axis,Axistitle....		
+			int [] ltrb = getBarLnDefaultSpadding();
+			chart.setPadding(ltrb[0], ltrb[1], ltrb[2], ltrb[3]);	
 			
-			//图所占范围大小
-			chart.setChartRange(0.0f, 0.0f,getScreenWidth(),getScreenHeight());
-		
-			chart.setPadding(20, 20, 10, 5);
+			//显示边框
+			chart.showRoundBorder();
 			
 			//设定数据源
 			chart.setCategories(labels);								
@@ -94,7 +119,7 @@ public class LineChart01View extends TouchView {
 			chart.setTitle("折线图(Line Chart)");
 			chart.addSubtitle("(XCL-Charts Demo)");
 			
-			chart.getLegend().setLowerLegend("(年份)");			
+			chart.getAxisTitle().setLowerAxisTitle("(年份)");			
 		
 			
 			/*

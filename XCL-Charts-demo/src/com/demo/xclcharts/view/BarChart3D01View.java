@@ -30,6 +30,7 @@ import java.util.List;
 
 import org.xclcharts.chart.BarChart3D;
 import org.xclcharts.chart.BarData;
+import org.xclcharts.common.DensityUtil;
 import org.xclcharts.common.IFormatterDoubleCallBack;
 import org.xclcharts.common.IFormatterTextCallBack;
 import org.xclcharts.renderer.XChart;
@@ -38,6 +39,7 @@ import org.xclcharts.renderer.XEnum;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.util.AttributeSet;
 import android.util.Log;
 
 /**
@@ -58,24 +60,47 @@ public class BarChart3D01View extends TouchView {
 	public BarChart3D01View(Context context) {
 		super(context);
 		// TODO Auto-generated constructor stub				
-		chartLabels();
-		chartDataSet();	
-		chartRender();
+		initView();
 	}
 		
+	
+	public BarChart3D01View(Context context, AttributeSet attrs){   
+        super(context, attrs);   
+        initView();
+	 }
+	 
+	 public BarChart3D01View(Context context, AttributeSet attrs, int defStyle) {
+			super(context, attrs, defStyle);
+			initView();
+	 }
+	 
+	 private void initView()
+	 {
+		 	chartLabels();
+			chartDataSet();	
+			chartRender();
+	 }
+	 
+	@Override  
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {  
+        super.onSizeChanged(w, h, oldw, oldh);  
+       // Log.d("mDebug", "onSizeChanged,w="+w+",h="+h+",oldw="+oldw+",oldh="+oldh);  
+       //图所占范围大小
+        chart.setChartRange(w,h);
+    }  
+	
+	
 	private void chartRender()
 	{
 		try {						
 			
-			//柱形图所占范围大小
-			chart.setChartRange(0.0f, 0.0f,getScreenWidth(),getScreenHeight());
-			//Plot的内边距比例		
-			if(chart.isVerticalScreen())
-			{
-				chart.setPadding(15, 20, 10, 5);
-			}else{
-				chart.setPadding(25, 20, 18, 5);
-			}
+			//设置绘图区默认缩进px值,留置空间显示Axis,Axistitle....	
+			int [] ltrb = getBarLnDefaultSpadding();
+			chart.setPadding(ltrb[0], ltrb[1], DensityUtil.dip2px(getContext(), 50), ltrb[3]);
+			
+			//显示边框
+			chart.showRoundBorder();
+			
 			
 			//数据源			
 			chart.setDataSource(BarDataset);

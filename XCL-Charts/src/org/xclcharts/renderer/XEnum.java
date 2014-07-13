@@ -51,11 +51,11 @@ public class XEnum {
 		
 		/**
 		 * 对于圆形的图，如饼图之类，用来确定标签的显示位置
-		 * @author XCL
+		 * @author XCL  
 		 *
 		 */
-		public enum ArcLabelLocation {		
-			CENTER,OUTSIDE,HIDE
+		public enum SliceLabelPosition{		
+			HIDE,INNER,OUTSIDE,LINE
 		}
 				
 		/**
@@ -106,6 +106,23 @@ public class XEnum {
 			SOLID,DOT,DASH
 		}
 		
+		/**
+		 * rect的类型
+		 * @author XCL
+		 *
+		 */
+		public enum RectType {
+			RECT,ROUNDRECT
+		}
+		
+		/**
+		 * 用于设定柱形的风格，仅对flatbar有效
+		 * @author XCL
+		 *
+		 */
+		public enum BarStyle {
+			GRADIENT,FILL,STROKE,OUTLINE
+		}
 		
 		/**
 		 * 横向或竖向网格线
@@ -122,9 +139,9 @@ public class XEnum {
 		 * @author XCL
 		 *
 		 */
-		public enum AxisType {
-			DATA, LABEL
-		}
+		//public enum AxisType {
+		//	DATA, LABEL
+		//}
 		
 		
 		/**
@@ -204,4 +221,6 @@ public class XEnum {
 			FILL,STROKE
 		}
 		
+
+	
 }

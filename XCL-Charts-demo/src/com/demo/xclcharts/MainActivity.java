@@ -77,7 +77,39 @@ public class MainActivity extends Activity {
 				 				 				
 				 Bundle bundleSimple = new Bundle();  				 
 				 Intent intent = new Intent();  	
-				 bundleSimple.putString("title", chartsTitleCurr[position]); 					
+				 bundleSimple.putString("title", chartsTitleCurr[position]); 		
+				 
+				
+				 int id_desc_3_4 = chartsTitleCurr.length - 4;
+				
+				 
+				 if(position == chartsTitleCurr.length - 1) //倒数1 仪表盘
+				 {
+					 intent.setClass(MainActivity.this,GaugeChartActivity.class);	
+					 					 
+				 }else if(position == chartsTitleCurr.length - 2) //倒数2  圆/半圆图
+				 {					
+					 intent.setClass(MainActivity.this,CircleChartActivity.class);	
+				 //}else if(position >= id_desc_1_2_3) //倒数1,2,3 seekbar图
+				 //{
+				//	 position = chartsTitleCurr.length - 1 - position;
+				//	 intent.setClass(MainActivity.this,SeekBarActivity.class);	
+				 }else if(position >= id_desc_3_4) //倒数3,4 同源汇总图
+				 {
+					 position = chartsTitleCurr.length - 3 - position;
+					 intent.setClass(MainActivity.this,SpinnerActivity.class);		
+				 }else if(position >= chartsTitleCurr.length - 5) //倒数5  scroll view line
+				 {
+					 intent.setClass(MainActivity.this,HLNScrollActivity.class);		
+				 }else if(position >= chartsTitleCurr.length - 6) //倒数6  scroll view bar
+				 {
+					 intent.setClass(MainActivity.this,HBARScrollActivity.class);		
+				
+				 }else{
+					 intent.setClass(MainActivity.this,ChartsActivity.class);	
+				 }
+				 
+				 /*
 				 if(position >= chartsTitleCurr.length - 3) //倒数1,2,3 seekbar图
 				 {
 					 position = chartsTitleCurr.length - 1 - position;
@@ -88,7 +120,8 @@ public class MainActivity extends Activity {
 					 intent.setClass(MainActivity.this,SpinnerActivity.class);						
 				 }else{				
 					 intent.setClass(MainActivity.this,ChartsActivity.class);					
-				 }				
+				 }	
+				 */
 				 
 				 bundleSimple.putInt("selected", position);  
 				 intent.putExtras(bundleSimple);  
@@ -117,12 +150,20 @@ public class MainActivity extends Activity {
         {
         case Menu.FIRST+1:     
        
+        	
         	String URL = getResources().getString(R.string.helpurl);	        		        
 	        Uri uri = Uri.parse(URL);  
 	        Intent intent2 = new Intent(Intent.ACTION_VIEW, uri);  
 	        startActivity(intent2);  
 	        finish();
 	        
+	        
+	        
+	        //Intent intent2 = new Intent();  
+    		//intent2.setClass(MainActivity.this,GradientActivity.class);    				
+    		//startActivity(intent2); 
+    		
+    		
             break;
         case Menu.FIRST+2:
 	        Intent intent = new Intent();  

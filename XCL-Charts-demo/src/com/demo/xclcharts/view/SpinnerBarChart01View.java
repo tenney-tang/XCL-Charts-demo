@@ -30,6 +30,7 @@ import org.xclcharts.chart.BarChart;
 import org.xclcharts.chart.BarChart3D;
 import org.xclcharts.chart.BarData;
 import org.xclcharts.chart.StackBarChart;
+import org.xclcharts.common.DensityUtil;
 import org.xclcharts.common.IFormatterDoubleCallBack;
 import org.xclcharts.common.IFormatterTextCallBack;
 import org.xclcharts.renderer.XEnum;
@@ -73,7 +74,7 @@ public class SpinnerBarChart01View extends GraphicalView {
 		case 0: //竖向柱形图
 			mChart = new BarChart();
 			//图例
-			mChart.getLegend().setLeftLegend("百分比");			
+			mChart.getAxisTitle().setLeftAxisTitle("百分比");			
 			break;
 		case 1:	//横向柱形图
 			mChart = new BarChart();
@@ -100,22 +101,24 @@ public class SpinnerBarChart01View extends GraphicalView {
 		
 	}
 	
+	@Override  
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {  
+        super.onSizeChanged(w, h, oldw, oldh);  
+       //图所占范围大小
+        //mChart.setChartRange(w,h);
+    }  		
+	
 	public void chartRender()
 	{
 		try {
 			
 			initChart(mChartStyle);
 			
-			//图所占范围大小
-			mChart.setChartRange(0.0f, mOffsetHeight, getScreenWidth(),getScreenHeight() - mOffsetHeight);
-		
-			if(mChart.isVerticalScreen())
-			{
-				mChart.setPadding(5, 40, 10, 15);
-			}else{
-				mChart.setPadding(10, 45, 15, 15);
-			}
-				
+			//设置绘图区默认缩进px值,留置空间显示Axis,Axistitle....		
+			int [] ltrb = getBarLnDefaultSpadding();
+			mChart.setPadding(ltrb[0], ltrb[1],DensityUtil.dip2px(getContext(), 50), ltrb[3]);	
+ 				
+			
 			//数据源
 			mChart.setDataSource(chartData);
 			mChart.setCategories(chartLabels);	
@@ -192,6 +195,11 @@ public class SpinnerBarChart01View extends GraphicalView {
 	@Override
     public void render(Canvas canvas) {
         try{
+        	
+        	mChart.setChartRange(0.0f, mOffsetHeight, this.getWidth(),this.getHeight() - mOffsetHeight);
+    		
+        	
+        	//mChart.setChartRange(this.getMeasuredWidth(), this.getMeasuredHeight());
         	mChart.render(canvas);
         } catch (Exception e){
         	Log.e(TAG, e.toString());

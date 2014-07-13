@@ -21,6 +21,8 @@
  */
 package com.demo.xclcharts;
 
+import org.xclcharts.common.DensityUtil;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
@@ -32,6 +34,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 
 import com.demo.xclcharts.view.SpinnerBarChart01View;
@@ -128,14 +131,21 @@ public class SpinnerActivity extends Activity {
 	    }
 	private void renderChart(int position)
 	{
+		
+		int width = DensityUtil.dip2px(getApplicationContext(), 300); 
+		int height = DensityUtil.dip2px(getApplicationContext(), 400); 		
+		RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(width, height);
+        layoutParams.addRule(RelativeLayout.CENTER_IN_PARENT); 
+				
+				
 		mLaychart.removeAllViews();
 		if(0 == mSelected )
 		{
 			SpinnerBarChart01View barChart01= new SpinnerBarChart01View(this,position,mMoveHeight);
-			mLaychart.addView(barChart01); 
+			mLaychart.addView(barChart01,layoutParams); 
 		}else{
 			SpinnerPieChart01View pieChart01= new SpinnerPieChart01View(this,position,mMoveHeight);
-			mLaychart.addView(pieChart01); 
+			mLaychart.addView(pieChart01,layoutParams); 
 		}
 		
 	}

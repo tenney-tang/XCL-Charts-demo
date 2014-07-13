@@ -11,8 +11,8 @@
 	    
 	  	<item>竖向3D柱形图 </item>
 	  	<item>横向3D柱形图</item>
-	  	<item>竖向堆叠柱形图 </item>
-	  	<item>横向堆叠柱形图 </item>
+	  	<item>竖向堆积柱形图 </item>
+	  	<item>横向堆积柱形图 </item>
 	   	<item>折线图(封闭式)</item>
 	   	<item>折线图(开放式)</item>
 	   	
@@ -22,7 +22,9 @@
 	    
 	    <item>多轴混合图1</item>
 	    <item>多轴混合图2</item>
+	     <item>多柱形堆积效果图</item>
 	    
+        <item>饼图</item>
         <item>饼图</item>
         <item>3D饼图</item>
         <item>环形图</item>
@@ -31,13 +33,15 @@
         <!--  
         <item>极性图</item> -->
         <item>雷达图</item> 
-        <item>柱形渐显动画演示</item> 
+        <item>柱形渐显动画演示</item>     
         
-        <item>同源圆图汇总 </item>
-        <item>同源柱形图汇总 </item>
+        <item>左右滑动柱形图</item> 
+        <item>左右滑动折线图</item> 
+        
+        <item>同数据源圆图切换 </item>
+        <item>同数据源柱图切换</item>
                
-        <item>半圆图</item>
-        <item>圆形图</item>
+        <item>圆/半圆形图</item>
         <item>仪表盘</item>
     </string-array>
     
@@ -60,21 +64,25 @@
 	  
 	   <item>MultiAxis Chart</item>
 	   <item>MultiAxis Chart</item>
+	   <item>MulBar chart + Stacked Bar</item>
 	   
       <item>Pie Chart - 饼块渐显动画效果</item>
+      <item>Pie Chart-另一种风格</item> 
       <item>3D Pie Chart - 由远及近的动画效果</item>     
       <item>Dount Chart</item>
       <item>Rose Chart</item>     
       
       <!--  <item>Polar Chart</item>    -->
-       <item>Radar Chart</item>    
-       
+       <item>Radar Chart</item>           
        <item>Bar Chart - 柱形渐显动画效果</item>    
+       
+        <item>左轴右ScrollView显示图表</item> 
+        <item>左轴右ScrollView显示图表</item>       
       
       <item>同一数据源可换成不同类型的柱形类的图</item>
       <item>同一数据源可显示成不同类型的饼，环，玫瑰图等</item>     
       
-      <item>Circle Chart</item>
+     <!--  <item>Circle Chart</item> -->
       <item>Circle Chart</item>
    	  <item>Gauge Chart</item>
     </string-array>
@@ -92,8 +100,8 @@
         <item>横向柱形图</item> 		
 	  	<item>竖向3D柱形图 </item>
 	  	<item>横向3D柱形图</item>
-	  	<item>竖向堆叠柱形图 </item>
-	  	<item>横向堆叠柱形图 </item>
+	  	<item>竖向堆积柱形图 </item>
+	  	<item>横向堆积柱形图 </item>
     </string-array>
     
      <string-array name="spinnercirstyle">
