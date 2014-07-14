@@ -117,7 +117,7 @@ public class MultiBarChart01View extends TouchView {
 			chart2.getBar().setBarStyle(XEnum.BarStyle.FILL);			
 			
 			//标题
-			chart2.setTitle("负债率标准备: 40%~60%");
+			chart2.setTitle("负债率标准: 40%~60%");
 			chart2.addSubtitle("(XCL-Charts Demo)");	
 			chart2.getPlotTitle().getTitlePaint().setColor(axisColor);
 			chart2.getPlotTitle().getSubtitlePaint().setColor(axisColor);
@@ -284,4 +284,3 @@ public class MultiBarChart01View extends TouchView {
 	}
 	
 }
-
