@@ -118,9 +118,11 @@ public class StackBarChart02View extends TouchView {
 			//图例
 			chart.getAxisTitle().setLowerAxisTitle("单位为(W)");
 			
-			//背景网格
+			//背景网格			
 			chart.getPlotGrid().showVerticalLines();
 			chart.getPlotGrid().setVerticalLineStyle(XEnum.LineStyle.DOT);
+					
+			
 			//chart.getPlotGrid().setVerticalLinesVisible(true);
 			//chart.getPlotGrid().setEvenRowsFillVisible(true);
 			//chart.getPlotGrid().getEvenFillPaint().setColor((int)Color.rgb(225, 230, 246)); 
@@ -153,7 +155,9 @@ public class StackBarChart02View extends TouchView {
 					DecimalFormat df=new DecimalFormat("#0.00");					 
 					String label = df.format(value).toString();
 					return label;
-				}});	        
+				}});	 
+			//定义柱形上标签显示颜色
+			chart.getBar().getItemLabelPaint().setColor(Color.rgb(225, 43, 44));
 				
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

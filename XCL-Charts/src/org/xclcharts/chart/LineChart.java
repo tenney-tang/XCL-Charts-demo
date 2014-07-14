@@ -49,7 +49,8 @@ public class LineChart extends LnChart{
 	protected List<LineData> mDataSet;
 	
 	//数据轴显示在左边还是右边
-	private XEnum.LineDataAxisLocation mDataAxisPosition = XEnum.LineDataAxisLocation.LEFT;
+	private XEnum.LineDataAxisLocation mDataAxisPosition = 
+								XEnum.LineDataAxisLocation.LEFT;
 
 	//用于绘制定制线(分界线)
 	private PlotCustomLine mCustomLine = null;
@@ -148,8 +149,7 @@ public class LineChart extends LnChart{
 			List<String> dataSet =  categoryAxis.getDataSet();
 			if(null == dataSet) return ;
 			//步长
-			//int XSteps = (int) Math.ceil( getAxisScreenWidth()/ (dataSet.size() - 1)) ;
-			float XSteps =  getAxisScreenWidth()/ (dataSet.size() - 1);
+			float XSteps = div( getAxisScreenWidth(),(dataSet.size() - 1));
 			
 			List<Double> chartValues = bd.getLinePoint();	
 			if(null == chartValues) return ;
@@ -158,24 +158,21 @@ public class LineChart extends LnChart{
 		    //画线
 			for(Double bv : chartValues)
             {																	
-				//参数值与最大值的比例  照搬到 y轴高度与矩形高度的比例上来 	                                
-            	//float valuePostion = (float) Math.round( 
-				//		axisScreenHeight * ( (bv - dataAxis.getAxisMin() ) / axisDataHeight)) ;              	
+				//参数值与最大值的比例  照搬到 y轴高度与矩形高度的比例上来 	                                             	
             	float vaxlen = (float) MathHelper.getInstance().sub(bv, dataAxis.getAxisMin());				
 				float fvper = div( vaxlen,axisDataHeight );
-				float valuePostion = mul(axisScreenHeight, fvper);
-			    
+				float valuePostion = mul(axisScreenHeight, fvper);			    
             		                	
             	if(j == 0 )
 				{
 					lineStartX = initX;
-					lineStartY = initY - valuePostion;
+					lineStartY = sub(initY , valuePostion);
 					
 					lineEndX = lineStartX;
 					lineEndY = lineStartY;
 				}else{
 					lineEndX = initX + (j) * XSteps;
-					lineEndY = initY - valuePostion;
+					lineEndY = sub(initY , valuePostion);
 				}            	            	            	           	
             
             	//如果值与最小值相等，即到了轴上，则忽略掉
@@ -185,7 +182,7 @@ public class LineChart extends LnChart{
 	            	PlotLine pLine = bd.getPlotLine();           
 	            	if(type.equalsIgnoreCase("LINE"))
 	            	{
-	            		if( lineStartY != initY )	            			
+	            		if( Float.compare(lineStartY, initY) != 0 )	            			
 	            			canvas.drawLine( lineStartX ,lineStartY ,lineEndX ,lineEndY,
 	            												pLine.getLinePaint()); 
 	            			            			            		
