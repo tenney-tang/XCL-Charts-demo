@@ -22,11 +22,9 @@
 
 package org.xclcharts.renderer;
 
-import android.graphics.Canvas;
 import org.xclcharts.common.MathHelper;
-import org.xclcharts.renderer.plot.PlotLegend;
-import org.xclcharts.renderer.plot.PlotLegendRender;
 
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Align;

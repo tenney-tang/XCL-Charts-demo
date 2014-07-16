@@ -44,15 +44,9 @@ public class RdChart extends XChart {
 	private float mRadius=0.0f;	
 	//初始偏移角度
 	private int mOffsetAgent = 0;//180;		
-	
-	//绘制Key的画笔
-	private Paint mPaintKey = null;
-	//是否显示Key
-	private boolean mKeyVisible = true;
 					
 	//格式化线中点的标签显示
-	 private IFormatterDoubleCallBack mDotLabelFormatter;
-		
+	 private IFormatterDoubleCallBack mDotLabelFormatter;		
 	 
 	//开放标签和线画笔让用户设置
 	private Paint mPaintLabel = null;	
@@ -65,12 +59,6 @@ public class RdChart extends XChart {
 	}
 	
 	private void initChart() {
-		mPaintKey = new Paint();
-		mPaintKey.setColor(Color.BLACK);
-		mPaintKey.setTextSize(18);
-		mPaintKey.setStyle(Style.FILL);	
-		mPaintKey.setAntiAlias(true);
-			
 		mPaintLabel = new Paint();
 		mPaintLabel.setColor(Color.BLACK);
 		mPaintLabel.setTextSize(18);
@@ -88,28 +76,11 @@ public class RdChart extends XChart {
 	@Override
 	protected void calcPlotRange()
 	{
-		super.calcPlotRange();
-		
-		if(isVerticalScreen())
-		{
-			this.mRadius = div(this.plotArea.getWidth(), 2f);
-		}else{
-			this.mRadius = div(this.plotArea.getHeight(),2f);
-		}
+		super.calcPlotRange();		
+		this.mRadius = Math.min( div(this.plotArea.getWidth() ,2f) , 
+				 				 div(this.plotArea.getHeight(),2f) );	
 	}
 	
-	/**
-	 * 设置饼图(pie chart)的半径
-	 * @param radius 饼图的半径
-	 */
-	public void setRadius(final float radius)
-	{
-		if(radius < 0 )
-		{
-			Log.e(TAG, "半径不能小于0.");
-		}else
-			mRadius = radius;
-	}
 	
 	/**
 	 * 返回半径
@@ -171,45 +142,7 @@ public class RdChart extends XChart {
 		}
 		return itemLabel;
 	}
-	
-	
-	/**
-	 * 开放Key画笔
-	 * @return 画笔
-	 */
-	public Paint getKeyPaint()
-	{
-		return mPaintKey;
-	}
-
-	/**
-	 * 是否绘制Key
-	 * @return Key值
-	 */
-	public boolean getKeyVisible()
-	{
-		return mKeyVisible;
-	}
-	
-	/**
-	 * 在图的上方显示键值(key)的标签说明
-	 * 
-	 */
-	public void showKeyLabels()
-	{
-		mKeyVisible = true;
-	}
-	
-	/**
-	 * 在图的上方不显示键值(key)的标签说明
-	 */
-	public void hideKeyLabels()
-	{
-		mKeyVisible = false;
-	}
-	
-	
-	
+		
 	/**
 	 * 开放标签画笔
 	 * @return 画笔
