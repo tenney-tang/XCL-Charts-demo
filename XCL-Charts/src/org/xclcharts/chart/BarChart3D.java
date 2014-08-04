@@ -241,13 +241,14 @@ public class BarChart3D extends BarChart{
                 	double tlen =  MathHelper.getInstance().sub(bv, dataAxis.getAxisMin());
                 	float valuePostion = mul(scrWidth, div(dtof(tlen),valueWidth) );                			
                             	        
-                	//画出柱形                	 	            
-	                mBar3D.renderHorizontal3DBar(plotArea.getLeft(), 
-	                							sub(drawBarButtomY , barHeight), 
-						                		add(plotArea.getLeft() , valuePostion), 
-						                		drawBarButtomY, 
+                	//画出柱形                	 	
+                	float topY = sub(drawBarButtomY , barHeight);
+                	float rightX = add(plotArea.getLeft() , valuePostion);
+	                mBar3D.renderHorizontal3DBar(plotArea.getLeft(), topY, rightX, drawBarButtomY, 
 	                							mBar3D.getBarPaint().getColor(), canvas);
-	                	             	
+	                
+	                //保存位置
+	                saveBarRectFRecord(i,j,plotArea.getLeft(),topY,rightX, drawBarButtomY); 	                	             
                 	                               	
                 	//在柱形的顶端显示上柱形的当前值	                
 	                mBar3D.renderBarItemLabel(getFormatterItemLabel(bv),
@@ -382,13 +383,14 @@ public class BarChart3D extends BarChart{
 				float drawBarEndX = add(drawBarStartX , barWidth);	  					
 				
 				//画出柱形      
-				mBar3D.renderVertical3DBar(drawBarStartX, 
-           								sub(plotArea.getBottom()  , valuePostion) ,
-				               			drawBarEndX, 
-				               			plotArea.getBottom(),
+				float topY = sub(plotArea.getBottom()  , valuePostion);
+				mBar3D.renderVertical3DBar(drawBarStartX, topY ,
+				               			drawBarEndX, plotArea.getBottom(),
 				               			mBar3D.getBarPaint().getColor(), canvas);
         
-			
+				//保存位置
+				saveBarRectFRecord(i,j,drawBarStartX,topY,drawBarEndX, plotArea.getBottom()); 				
+				
            		//在柱形的顶端显示上柱形的当前值
            		mBar3D.renderBarItemLabel(getFormatterItemLabel(bv),
 			                		 add(drawBarStartX , barWidth/2) ,	

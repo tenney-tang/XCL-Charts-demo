@@ -35,6 +35,7 @@ import org.xclcharts.renderer.line.PlotLine;
 
 import android.graphics.Canvas;
 import android.graphics.Paint.Align;
+import android.graphics.RectF;
 import android.util.Log;
 
 /**
@@ -56,6 +57,8 @@ public class LineChart extends LnChart{
 
 	//用于绘制定制线(分界线)
 	private PlotCustomLine mCustomLine = null;
+	
+	private boolean mLineAxisIntersectVisible = false;
 	
 	
 	public LineChart()
@@ -136,13 +139,32 @@ public class LineChart extends LnChart{
 			mCustomLine.setCustomLines(customLineDataset);
 		}
 		
+		
+		/**
+		 *  设置当值与底轴的最小值相等时，线是否与轴连结显示. 默认为False
+		 * @param visible 是否连接
+		 */
+		public void setLineAxisIntersectVisible(boolean visible)
+		{
+			mLineAxisIntersectVisible = visible;
+		}
+		
+		/**
+		 * 返回当值与底轴的最小值相等时，线是否与轴连结的当前状态
+		 * @return 状态
+		 */
+		public boolean getLineAxisIntersectVisible()
+		{
+			return mLineAxisIntersectVisible;
+		}
+		
 		/**
 		 * 绘制线
 		 * @param canvas	画布
 		 * @param bd		数据类
 		 * @param type		处理类型
 		 */
-		private boolean renderLine(Canvas canvas, LineData bd,String type)
+		private boolean renderLine(Canvas canvas, LineData bd,String type,int dataID)
 		{
 			float initX =  plotArea.getLeft();
             float initY =  plotArea.getBottom();
@@ -170,7 +192,7 @@ public class LineChart extends LnChart{
 			float axisScreenHeight = getAxisScreenHeight();
 			float axisDataHeight = (float) dataAxis.getAxisRange();	
 			float XSteps = 0.0f;	
-			int j = 0;	
+			int j = 0,childID = 0;	
 			if (dataSet.size() == 1) //label仅一个时右移
 			{
 				XSteps = div( getAxisScreenWidth(),(dataSet.size() ));
@@ -198,10 +220,16 @@ public class LineChart extends LnChart{
 					lineEndX = initX + (j) * XSteps;
 					lineEndY = sub(initY , valuePostion);
 				}            	            	            	           	
-            
-            	//如果值与最小值相等，即到了轴上，则忽略掉
-				if(bv != dataAxis.getAxisMin())
-				{				
+                        	
+            	if( getLineAxisIntersectVisible() == false &&
+            			Double.compare(bv, dataAxis.getAxisMin()) == 0 )
+            	{
+            		//如果值与最小值相等，即到了轴上，则忽略掉  
+            		lineStartX = lineEndX;
+    				lineStartY = lineEndY;
+
+    				j++;
+            	}else{
 	            	PlotLine pLine = bd.getPlotLine();           
 	            	if(type.equalsIgnoreCase("LINE"))
 	            	{
@@ -215,12 +243,16 @@ public class LineChart extends LnChart{
 	                	{                		       	
 	                		PlotDot pDot = pLine.getPlotDot();	                
 	                		float rendEndX  = lineEndX  + pDot.getDotRadius();               		
-	            			
-	                		PlotDotRender.getInstance().renderDot(canvas,pDot,
+	            				                		
+	                		RectF rect = PlotDotRender.getInstance().renderDot(canvas,pDot,
 	                				lineStartX ,lineStartY ,
 	                				lineEndX ,lineEndY,
-	                				pLine.getDotPaint()); //标识图形            			                	
-	            			lineEndX = rendEndX;
+	                				pLine.getDotPaint()); //标识图形            		
+	                		
+	                		savePointRecord(dataID,childID,lineEndX, lineEndY,rect);    
+	                		childID++;
+	                		
+	            			lineEndX = rendEndX;	            			
 	                	}
 	            		
 	            		if(bd.getLabelVisible()) //标签
@@ -228,19 +260,22 @@ public class LineChart extends LnChart{
 	                		canvas.drawText(this.getFormatterItemLabel(bv), 
 	    							lineEndX, lineEndY,  pLine.getDotLabelPaint());
 	                	}
+	            			            		
 	            	}else{
 	            		Log.e(TAG,"未知的参数标识。"); //我不认识你，我不认识你。
 	            		return false;
-	            	}      
-				} //if(bv != dataAxis.getAxisMin())
+	            	}      				
             	
-				lineStartX = lineEndX;
-				lineStartY = lineEndY;
-
-				j++;
+					lineStartX = lineEndX;
+					lineStartY = lineEndY;
+	
+					j++;
+            	} //if(bv != dataAxis.getAxisMin())
             } 				
 			return true;
 		}
+		
+		
 		
 		/**
 		 * 绘制图表
@@ -265,9 +300,9 @@ public class LineChart extends LnChart{
 			//开始处 X 轴 即分类轴                  
 			for(int i=0;i<mDataSet.size();i++)
 			{								
-				if(renderLine(canvas,mDataSet.get(i),"LINE") == false) 
+				if(renderLine(canvas,mDataSet.get(i),"LINE",i) == false) 
 					return false;;
-				if(renderLine(canvas,mDataSet.get(i),"DOT2LABEL") == false) 
+				if(renderLine(canvas,mDataSet.get(i),"DOT2LABEL",i) == false) 
 					return false;;
 				key = mDataSet.get(i).getLineKey();				
 				if("" != key && key.length() > 0)

@@ -17,5 +17,9 @@
     <string name="title_activity_hlnscroll">HLNScrollActivity</string>
     <string name="title_activity_circle_chart">CircleChartActivity</string>
     <string name="title_activity_gauge_chart">GaugeChartActivity</string>
+    <string name="title_activity_click_charts">ClickChartsActivity</string>
+    <string name="title_activity_dial_chart">DialChartActivity</string>
+    <string name="title_activity_dial_chart2">DialChart2Activity</string>
+    <string name="title_activity_dial_chart3">DialChart3Activity</string>
 
 </resources>

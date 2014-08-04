@@ -3,4 +3,5 @@
 <fullyQualifiedTypeName name="android.util.Log"/>
 <fullyQualifiedTypeName name="org.xclcharts.common.MathHelper"/>
 <fullyQualifiedTypeName name="android.graphics.Paint.Align"/>
+<fullyQualifiedTypeName name="com.demo.xclcharts.view.ClickPieChart01View"/>
 </qualifiedTypeNameHistroy>

@@ -25,6 +25,7 @@ import java.util.List;
 
 import org.xclcharts.common.DrawHelper;
 import org.xclcharts.common.MathHelper;
+import org.xclcharts.event.click.ArcPosition;
 import org.xclcharts.renderer.CirChart;
 
 import android.graphics.Canvas;
@@ -65,7 +66,7 @@ public class PieChart extends CirChart{
 	public void setDataSource(List<PieData> piedata)
 	{
 		if(null != mDataset)mDataset.clear();
-		this.mDataset = piedata;
+		this.mDataset = piedata; 
 	}
 	
 	/**
@@ -129,15 +130,15 @@ public class PieChart extends CirChart{
 	
 	/**
 	 * 检查角度的合法性
-	 * @param agent 角度
+	 * @param Angle 角度
 	 * @return 是否正常
 	 */
-	private boolean validateAgent(float agent)
+	private boolean validateAngle(float Angle)
 	{
-		if(Float.compare(agent, 0.0f) == 0 
-				|| Float.compare(agent, 0.0f) == -1)
+		if(Float.compare(Angle, 0.0f) == 0 
+				|| Float.compare(Angle, 0.0f) == -1)
 		{
-			Log.e(TAG, "扇区圆心角小于等于0度. 当前圆心角为:"+Float.toString(agent));
+			Log.e(TAG, "扇区圆心角小于等于0度. 当前圆心角为:"+Float.toString(Angle));
 			return false;
 		}
 		return true;
@@ -151,8 +152,8 @@ public class PieChart extends CirChart{
 	 * @param cirX   中心点X坐标
 	 * @param cirY   中心点Y坐标
 	 * @param radius  半径
-	 * @param offsetAgent 偏移角度
-	 * @param curretAgent 当前绘制角度
+	 * @param offsetAngle 偏移角度
+	 * @param curretAngle 当前绘制角度
 	 * @throws Exception  例外处理
 	 */
 	protected boolean drawSlice(Canvas canvas, Paint paintArc,RectF arcRF0,
@@ -160,22 +161,22 @@ public class PieChart extends CirChart{
 							final float cirX,
 							final float cirY,
 							final float radius,
-							final float offsetAgent,
-							final float curretAgent) throws Exception
+							final float offsetAngle,
+							final float curretAngle) throws Exception
 	{
 		try{
-			if(!validateAgent(curretAgent))return false;
+			if(!validateAngle(curretAngle))return false;
 			
 			// 绘制环形渐变
 			if(getGradient())
 				paintArc.setShader(renderRadialGradient(paintArc,cirX,cirY,radius));
 	        
 			//在饼图中显示所占比例  
-        	canvas.drawArc(arcRF0, offsetAgent, curretAgent, true, paintArc);
+        	canvas.drawArc(arcRF0, offsetAngle, curretAngle, true, paintArc);
          
             //标签 
         	renderLabel(canvas,cData.getLabel(),cirX, cirY,
-	        			radius,offsetAgent,curretAgent);  
+	        			radius,offsetAngle,curretAngle);  
         	return true;
 		}catch( Exception e){
 			throw e;
@@ -190,8 +191,8 @@ public class PieChart extends CirChart{
 	 * @param cirX  中心点X坐标
 	 * @param cirY  中心点Y坐标
 	 * @param radius 半径
-	 * @param offsetAgent 偏移角度
-	 * @param curretAgent 当前绘制角度
+	 * @param offsetAngle 偏移角度
+	 * @param curretAngle 当前绘制角度
 	 * @throws Exception  例外处理
 	 */
 	protected boolean drawSelectedSlice(Canvas canvas, Paint paintArc,
@@ -199,18 +200,18 @@ public class PieChart extends CirChart{
 									final float cirX,
 									final float cirY,
 									final float radius,
-									final float offsetAgent,
-									final float curretAgent) throws Exception
+									final float offsetAngle,
+									final float curretAngle) throws Exception
 	{
 		try{			
-			if(!validateAgent(curretAgent))return false;
+			if(!validateAngle(curretAngle))return false;
 			
 			//偏移圆心点位置(默认偏移半径的1/10)
 	    	float newRadius = div(radius , SELECTED_OFFSET);
 	    	 //计算百分比标签
 	    	MathHelper.getInstance().calcArcEndPointXY(cirX,cirY,
 	    							newRadius,
-	    							add(offsetAgent , curretAgent/2f)); 	
+	    							add(offsetAngle , curretAngle/2f)); 	
 	        
 	        float arcLeft = sub(MathHelper.getInstance().getPosX() , radius);  
 	        float arcTop  = sub(MathHelper.getInstance().getPosY() , radius); 
@@ -223,13 +224,13 @@ public class PieChart extends CirChart{
 	        	paintArc.setShader(renderRadialGradient(paintArc,cirX,cirY,radius));
 	        
 	        //在饼图中显示所占比例  
-	        canvas.drawArc(arcRF1, offsetAgent, curretAgent, true, paintArc);
+	        canvas.drawArc(arcRF1, offsetAngle, curretAngle, true, paintArc);
 	        	        
 	        //标签
 	        renderLabel(canvas,cData.getLabel(),
 			        			MathHelper.getInstance().getPosX(), 
 			        			MathHelper.getInstance().getPosY(),
-			        			radius,offsetAgent,curretAgent);	
+			        			radius,offsetAngle,curretAngle);	
 	        
 	        return true;	        
 		}catch( Exception e){
@@ -254,7 +255,7 @@ public class PieChart extends CirChart{
 		    float cirY = plotArea.getCenterY();		     
 	        float radius = getRadius();
 	              
-	        //确定去饼图范围
+	        //确定饼图范围
 	        float arcLeft = sub(cirX , radius);  
 	        float arcTop  = sub(cirY , radius) ;  
 	        float arcRight = add(cirX , radius) ;  
@@ -266,27 +267,34 @@ public class PieChart extends CirChart{
 			paintArc.setAntiAlias(true);	
 			
 			//用于存放当前百分比的圆心角度
-			float currentAgent = 0.0f;		
+			float currentAngle = 0.0f;		
+			int i = 0;
+			float offsetAngle = mOffsetAngle;
 			
 			for(PieData cData : mDataset)
 			{
 				paintArc.setColor(cData.getSliceColor());				
-				currentAgent = cData.getSliceAgent();		
-				if(Float.compare(currentAgent,0.0f) == 0 
-						|| Float.compare(currentAgent,0.0f) == -1 )continue;				
+				currentAngle = cData.getSliceAngle();		
+				if(Float.compare(currentAngle,0.0f) == 0 
+						|| Float.compare(currentAngle,0.0f) == -1 )continue;				
 								
 			    if(cData.getSelected()) //指定突出哪个块
 	            {			    	            		            	
 	            	if(!drawSelectedSlice(canvas,paintArc,cData,
 	            			cirX,cirY,radius,
-	            			mOffsetAgent,currentAgent))return false;			    		            		            		            
+	            			offsetAngle,currentAngle))return false;			    		            		            		            
 	            }else{
 	            	if(!drawSlice(canvas,paintArc,arcRF0,cData,
 	            			cirX,cirY,radius,
-	            			mOffsetAgent,(float) currentAgent))return false;	            	
+	            			offsetAngle,(float) currentAngle))return false;	            	
 	            }
+			    
+			    //保存角度
+			    saveArcRecord(i,cirX,cirY,radius,offsetAngle,currentAngle);
+			    
 	          //下次的起始角度  
-	            mOffsetAgent = add(mOffsetAgent, currentAgent);
+			    offsetAngle = add(offsetAngle, currentAngle);
+	            i++;
 			}					
 			
 			//图KEY
@@ -306,30 +314,40 @@ public class PieChart extends CirChart{
 	protected boolean validateParams()
 	{		
 		if(null == mDataset)return false;
-		float totalAgent = 0.0f;	
+		float totalAngle = 0.0f;	
 				
 		for(PieData cData : mDataset)
 		{			
-			float currentValue = cData.getSliceAgent();			
-			totalAgent = add(totalAgent,currentValue);					
-			if( Float.compare(totalAgent,0.0f) == -1)
+			float currentValue = cData.getSliceAngle();			
+			totalAngle = add(totalAngle,currentValue);					
+			if( Float.compare(totalAngle,0.0f) == -1)
 			{
 				Log.e(TAG,"传入参数不合理，圆心角总计小于等于0度. 现有圆心角合计:"
-						+Float.toString(totalAgent)
+						+Float.toString(totalAngle)
 						+" 当前圆心角:"+Float.toString( currentValue )
 						+" 当前百分比:"+Double.toString( cData.getPercentage() ));
 				return false;
-			}else if( Float.compare(totalAgent, 360f) == 1) 
+			}else if( Float.compare(totalAngle, 360f) == 1) 
 			{
 				//圆心角总计大于360度
 				Log.e(TAG,"传入参数不合理，圆心角总计大于360度. 现有圆心角合计:"
-							+Float.toString(totalAgent));
+							+Float.toString(totalAngle));
 				return false;
 			}
 		}				
 		return true;
 	}
 
+	/**
+	 * 返回当前点击点的信息
+	 * @param x 点击点X坐标
+	 * @param y	点击点Y坐标
+	 * @return 返回对应的位置记录
+	 */
+	public ArcPosition getPositionRecord(float x,float y)
+	{		
+		return getArcRecord(x,y);
+	}		
 	
 	@Override
 	protected boolean postRender(Canvas canvas) throws Exception 
