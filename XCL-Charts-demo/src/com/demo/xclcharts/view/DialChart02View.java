@@ -88,10 +88,10 @@ public class DialChart02View extends GraphicalView {
 				chart.showRoundBorder();
 						
 				//设置当前百分比
-				chart.setCurrentPercentage(mPercentage);
+				//chart.setCurrentPercentage(mPercentage);
 				
 				//设置指针长度
-				chart.setPointerLength(0.68f);
+				chart.getPointer().setLength(0.68f);
 				
 				//增加轴承
 				addAxis();						
@@ -99,6 +99,15 @@ public class DialChart02View extends GraphicalView {
 				//设置附加信息
 				addAttrInfo();
 				/////////////////////////////////////////////////////////////
+				
+				chart.getPointer().setPercentage(mPercentage);
+				
+				chart.getPointer().getPointerPaint().setColor(Color.WHITE);
+				chart.getPointer().getBaseCirclePaint().setColor(Color.WHITE);
+				//chart.getPointer().setPointerStyle(XEnum.PointerStyle.TRIANGLE);
+				
+				chart.getPointer().setPercentage(mPercentage/2);
+				
 				
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
@@ -125,16 +134,33 @@ public class DialChart02View extends GraphicalView {
 			chart.addStrokeRingAxis(0.8f,0.7f, ringPercentage, rcolor);
 			
 			
+			chart.addLineAxis(XEnum.Location.TOP,0.3f); 	
+			chart.addLineAxis(XEnum.Location.LEFT,0.3f); 	
+			chart.addLineAxis(XEnum.Location.RIGHT,0.3f); 				
+			if(chart.getPlotAxis().size() >= 2)
+			{
+				chart.getPlotAxis().get(2).getAxisPaint().setColor(Color.BLUE);	
+				chart.getPlotAxis().get(2).getAxisPaint().setStrokeWidth(5);
+			}
+			if(chart.getPlotAxis().size() >= 3)
+			{
+				chart.getPlotAxis().get(3).getAxisPaint().setColor(Color.GREEN);	
+				chart.getPlotAxis().get(3).getAxisPaint().setStrokeWidth(5);
+			}
+			if(chart.getPlotAxis().size() >= 4)
+			{
+				chart.getPlotAxis().get(4).getAxisPaint().setColor(Color.YELLOW);	
+				chart.getPlotAxis().get(4).getAxisPaint().setStrokeWidth(5);
+			}
+	
+			
+			
 			chart.getPlotAxis().get(0).getAxisPaint().setColor(Color.WHITE );
 			chart.getPlotAxis().get(0).getAxisPaint().setStrokeWidth(2);
 			chart.getPlotAxis().get(1).getFillAxisPaint().setColor((int)Color.rgb(47, 199, 140) );
 		
 			chart.addCircleAxis(0.2f,(int)Color.rgb(62, 175, 135)); 
 			chart.addCircleAxis(0.15f,(int)Color.rgb(28, 111, 84)); 
-						
-			chart.getPinterCirclePaint().setColor(Color.WHITE );
-			chart.getPointerLinePaint().setColor(Color.WHITE );
-			
 		}
 		
 		
@@ -146,7 +172,7 @@ public class DialChart02View extends GraphicalView {
 				paintTB.setColor(Color.WHITE);
 				paintTB.setTextAlign(Align.CENTER);
 				paintTB.setTextSize(30);			
-				chart.addAttributeInfo(XEnum.AttributeInfoLoction.TOP, "100 K/s", 1.1f, paintTB);
+				chart.addAttributeInfo( XEnum.Location.TOP, "100 K/s", 0.9f, paintTB);
 				
 				Paint paintBT = new Paint();
 				paintBT.setColor(Color.WHITE);
@@ -154,18 +180,18 @@ public class DialChart02View extends GraphicalView {
 				paintBT.setTextSize(30);
 				
 				
-				chart.addAttributeInfo(XEnum.AttributeInfoLoction.BOTTOM, 
+				chart.addAttributeInfo(XEnum.Location.BOTTOM, 
 						"平均速率: "+Float.toString( mPercentage * 100)+"K/s", 0.8f, paintBT);
 		}
 		
 		public void setCurrentStatus(float percentage)
 		{
 			//清理
-			chart.clearData();
+			chart.clearAll();
 					
 			mPercentage =  percentage;
 			//设置当前百分比
-			chart.setCurrentPercentage(mPercentage);
+			chart.getPointer().setPercentage(mPercentage);
 			addAxis();
 			addAttrInfo();
 		}
@@ -176,6 +202,7 @@ public class DialChart02View extends GraphicalView {
 			// TODO Auto-generated method stub
 			 try{
 		            chart.render(canvas);
+		            
 		        } catch (Exception e){
 		        	Log.e(TAG, e.toString());
 		        }

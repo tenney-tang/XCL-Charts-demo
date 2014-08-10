@@ -35,6 +35,12 @@
         <item>雷达图</item> 
         <item>柱形渐显动画演示</item>     
         
+        <item>仪表盘-混合图</item> 
+         <item>仪表盘-测试网速</item> 
+         <item>仪表盘-速率</item> 
+          <item>仪表盘-功能演示</item> 
+          <item>Click例子</item>    
+        
         <item>左右滑动柱形图</item> 
         <item>左右滑动折线图</item> 
         
@@ -42,7 +48,7 @@
         <item>同数据源柱图切换</item>
                
         <item>圆/半圆形图</item>
-        <item>仪表盘</item>
+        <item>刻度盘(GaugeChart)</item>
     </string-array>
     
      <string-array name="chartsDesc">
@@ -76,6 +82,12 @@
        <item>Radar Chart</item>           
        <item>Bar Chart - 柱形渐显动画效果</item>    
        
+       <item>Dial Chart</item> 
+        <item>Dial Chart</item>  
+        <item>Dial Chart</item>        
+        <item>Dial Chart</item>     
+        <item>Activity调用点击的例子</item> 
+       
         <item>左轴右ScrollView显示图表</item> 
         <item>左轴右ScrollView显示图表</item>       
       
@@ -84,7 +96,7 @@
       
      <!--  <item>Circle Chart</item> -->
       <item>Circle Chart</item>
-   	  <item>Gauge Chart</item>
+   	  <item>Gauge Chart - 180</item>
     </string-array>
     
      

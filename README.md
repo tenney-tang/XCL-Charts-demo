@@ -45,6 +45,13 @@ http://www.oschina.net/p/xcl-charts
 <img src="http://img.blog.csdn.net/20140701205807534" alt="横向定制线 柱形渐显动画" />
 <img src="http://img.blog.csdn.net/20140701205927890" alt="竖向定线 渐显动画" />
 
+ <br/>
+<img src="http://img.blog.csdn.net/20140810114004828" alt="dialchart2 动画" />
+<img src="http://img.blog.csdn.net/20140810114030796" alt="dialchart3 动画" />
+
+ <br/>
+<img src="http://img.blog.csdn.net/20140810114309276" alt="dialchart4 动画" />
+<img src="http://img.blog.csdn.net/20140810114121636?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQveGNsMTY4/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="dialchart1 动画" />
 <br/>
 <p>
 <img src="http://img.blog.csdn.net/20140622203726093" alt="radar chart" />
@@ -86,8 +93,3 @@ http://www.oschina.net/p/xcl-charts
  <br/>
  <img src="http://img.blog.csdn.net/20140716213434150" alt="mulbar stacked chart" />  
   <img src="http://img.blog.csdn.net/20140716213635034" alt="piechart2d" />  
-<br/> 
-<img src="http://img.blog.csdn.net/20140803234857340?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQveGNsMTY4/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="dial chart 1" />  
-<img src="http://img.blog.csdn.net/20140803234729171?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQveGNsMTY4/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="dial chart 2" />  
-<img src="http://img.blog.csdn.net/20140803234807781?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQveGNsMTY4/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="dial chart 3" />  
-<br/> 

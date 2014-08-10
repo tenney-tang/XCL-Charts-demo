@@ -23,19 +23,20 @@ package com.demo.xclcharts;
 
 import java.util.Random;
 
-import com.demo.xclcharts.view.DialChart01View;
-import com.demo.xclcharts.view.DialChart03View;
-
-import android.os.Bundle;
 import android.app.Activity;
+import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
+import com.demo.xclcharts.view.DialChart03View;
+import com.demo.xclcharts.view.DialChart06View;
+
 public class DialChart3Activity extends Activity {
 
 	DialChart03View chart = null;
+	DialChart06View chart6 = null;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +44,7 @@ public class DialChart3Activity extends Activity {
 		setContentView(R.layout.activity_dial_chart3);
 		
 		chart = (DialChart03View)findViewById(R.id.circle_view); 
+		chart6 = (DialChart06View)findViewById(R.id.circle_view2); 
 		
 		final Button button = (Button)findViewById(R.id.button1); 
 		
@@ -59,6 +61,9 @@ public class DialChart3Activity extends Activity {
 				float pf = p / 100f;
 				chart.setCurrentStatus(pf);
 				chart.invalidate();
+				
+				chart6.setCurrentStatus(pf);
+				chart6.invalidate();
 			}
 			
 		  }

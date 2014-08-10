@@ -25,8 +25,6 @@ package com.demo.xclcharts;
 import org.xclcharts.event.click.ArcPosition;
 import org.xclcharts.event.click.ChartArcListener;
 
-import com.demo.xclcharts.view.ClickPieChart01View;
-
 import android.app.Activity;
 import android.graphics.PointF;
 import android.os.Bundle;
@@ -37,6 +35,8 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
+
+import com.demo.xclcharts.view.ClickPieChart01View;
 
 public class ClickChartsActivity extends Activity {
 	

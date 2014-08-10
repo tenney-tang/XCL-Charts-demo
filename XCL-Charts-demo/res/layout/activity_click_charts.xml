@@ -12,5 +12,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/hello_world" />
+    
+    <!-- 
+     <com.demo.xclcharts.view.ClickPieChart01View
+			         android:id="@+id/circle_view"
+			         android:layout_width="300dip"  
+			         android:layout_height="300dip"  
+			         android:layout_gravity="center_vertical"
+			       />   	
+			       -->
 
 </RelativeLayout>
