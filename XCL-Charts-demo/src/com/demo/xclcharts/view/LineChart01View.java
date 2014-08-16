@@ -128,6 +128,9 @@ public class LineChart01View extends TouchView {
 			chart.ActiveListenItemClick();
 			//为了让触发更灵敏，可以扩大5px的点击监听范围
 			chart.extPointClickRange(5);
+			
+			//显示轴交叉
+			chart.setLineAxisIntersectVisible(true);
 		
 			
 			/*
@@ -168,12 +171,12 @@ public class LineChart01View extends TouchView {
 		LinkedList<Double> dataSeries2= new LinkedList<Double>();	
 		dataSeries2.add((double)30); 
 		dataSeries2.add((double)42); 
-		dataSeries2.add((double)50); 	
+		dataSeries2.add((double)0); 	
 		dataSeries2.add((double)60); 
 		dataSeries2.add((double)40); 
 		LineData lineData2 = new LineData("圆环",dataSeries2,(int)Color.rgb(75, 166, 51));
 		lineData2.setDotStyle(XEnum.DotStyle.RING);				
-		lineData2.getPlotLine().getDotPaint().setColor(Color.BLACK);
+		lineData2.getPlotLine().getDotPaint().setColor(Color.RED);
 		lineData2.setLabelVisible(true);		
 		//Line 3
 		LinkedList<Double> dataSeries3= new LinkedList<Double>();	
