@@ -99,7 +99,7 @@ public class BarChart02View extends TouchView {
 			
 			chart.setTitle("每日收益情况");
 			chart.addSubtitle("(XCL-Charts Demo)");		
-			chart.setTitlePosition(XEnum.Position.CENTER);
+			chart.setTitleVerticalAlign(XEnum.VerticalAlign.MIDDLE);
 			chart.setTitleAlign(XEnum.ChartTitleAlign.LEFT);
 			
 			//数据源
