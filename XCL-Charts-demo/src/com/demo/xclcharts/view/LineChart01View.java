@@ -213,6 +213,7 @@ public class LineChart01View extends TouchView {
 		chartData.add(lineData3);
 		chartData.add(lineData4);
 		chartData.add(lineData5);
+		
 	}
 	
 	private void chartLabels()
@@ -236,9 +237,10 @@ public class LineChart01View extends TouchView {
 	@Override
 	public List<XChart> bindChart() {
 		// TODO Auto-generated method stub		
-		List<XChart> lst = new ArrayList<XChart>();
-		lst.add(chart);		
-		return lst;
+		//List<XChart> lst = new ArrayList<XChart>();
+		//lst.add(chart);		
+		//return lst;
+		return null;
 	}
 	
 	@Override
